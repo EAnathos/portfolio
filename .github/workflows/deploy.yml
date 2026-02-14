@@ -25,6 +25,9 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Copy runtime package files
+        run: cp package.json package-lock.json dist/
+
       - name: Deploy via rsync
         uses: burnett01/rsync-deployments@7.0.1
         with:
