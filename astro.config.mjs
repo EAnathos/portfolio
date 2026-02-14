@@ -10,5 +10,8 @@ export default defineConfig({
     server: {
       allowedHosts: ["anathos.me"],
     },
+    preview: {
+      allowedHosts: ["anathos.me"],
+    },
   },
 });
