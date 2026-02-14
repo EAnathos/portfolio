@@ -21,13 +21,20 @@
 				</p>
 			</div>
 		</div>
-		<form class="fade-up fade-up-1 space-y-4 rounded-3xl border border-[rgba(44,166,255,0.18)] bg-[rgba(6,15,36,0.75)] p-6">
+		<form
+			class="fade-up fade-up-1 space-y-4 rounded-3xl border border-[rgba(44,166,255,0.18)] bg-[rgba(6,15,36,0.75)] p-6"
+			method="post"
+			action="/api/contact"
+			data-contact-form
+		>
 			<div>
 				<label class="text-xs uppercase tracking-[0.3em] text-[color:var(--ink-2)]" for="email">Email</label>
 				<input
 					id="email"
+					name="email"
 					type="email"
 					placeholder="you@company.com"
+					required
 					class="mt-2 w-full rounded-2xl border border-[rgba(44,166,255,0.2)] bg-[rgba(7,20,46,0.9)] px-4 py-3 text-sm text-[color:var(--ink-0)] placeholder:text-[color:var(--ink-2)]"
 				/>
 			</div>
@@ -35,8 +42,10 @@
 				<label class="text-xs uppercase tracking-[0.3em] text-[color:var(--ink-2)]" for="subject">Sujet</label>
 				<input
 					id="subject"
+					name="subject"
 					type="text"
 					placeholder="Collaboration"
+					required
 					class="mt-2 w-full rounded-2xl border border-[rgba(44,166,255,0.2)] bg-[rgba(7,20,46,0.9)] px-4 py-3 text-sm text-[color:var(--ink-0)] placeholder:text-[color:var(--ink-2)]"
 				/>
 			</div>
@@ -44,13 +53,16 @@
 				<label class="text-xs uppercase tracking-[0.3em] text-[color:var(--ink-2)]" for="message">Message</label>
 				<textarea
 					id="message"
+					name="message"
 					rows="4"
 					placeholder="Ton message"
+					required
 					class="mt-2 w-full rounded-2xl border border-[rgba(44,166,255,0.2)] bg-[rgba(7,20,46,0.9)] px-4 py-3 text-sm text-[color:var(--ink-0)] placeholder:text-[color:var(--ink-2)]"
 				></textarea>
 			</div>
+			<p class="text-sm text-[color:var(--ink-2)]" data-contact-status aria-live="polite"></p>
 			<button
-				type="button"
+				type="submit"
 				class="w-full rounded-full bg-[color:var(--accent-0)] px-6 py-3 text-sm font-semibold text-[#040b1e] transition hover:brightness-110"
 			>
 				Envoyer
@@ -58,3 +70,30 @@
 		</form>
 	</div>
 </section>
+
+<script>
+	const form = document.querySelector('[data-contact-form]') as HTMLFormElement | null;
+	const statusEl = document.querySelector('[data-contact-status]');
+
+	if (form && statusEl instanceof HTMLElement) {
+		form.addEventListener('submit', async (event) => {
+			event.preventDefault();
+			statusEl.textContent = 'Envoi en cours...';
+
+			const response = await fetch(form.action, {
+				method: 'POST',
+				body: new FormData(form),
+			});
+
+			if (response.ok) {
+				form.reset();
+				statusEl.textContent = 'Message envoye. Je reviens vers toi rapidement.';
+				return;
+			}
+
+			const data = await response.json().catch(() => ({}));
+			statusEl.textContent =
+				data?.message || "Impossible d'envoyer le message pour le moment.";
+		});
+	}
+</script>
