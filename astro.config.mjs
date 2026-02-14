@@ -11,7 +11,8 @@ export default defineConfig({
       allowedHosts: ['anathos.me', 'www.anathos.me']
     },
     preview: {
-      allowedHosts: ['anathos.me', 'www.anathos.me']
+      // Temporary: allow all hosts to avoid preview host blocking behind nginx.
+      allowedHosts: true
     }
   }
 });
