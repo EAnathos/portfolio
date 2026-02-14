@@ -1,0 +1,25 @@
+---
+import SiteHeader from './sections/SiteHeader.astro';
+import HeroSection from './sections/HeroSection.astro';
+import AboutSection from './sections/AboutSection.astro';
+import SkillsSection from './sections/SkillsSection.astro';
+import ProjectsSection from './sections/ProjectsSection.astro';
+import PhotoSection from './sections/PhotoSection.astro';
+import ContactSection from './sections/ContactSection.astro';
+import SiteFooter from './sections/SiteFooter.astro';
+import { photoGear, projects, skillGroups } from '../data/portfolioData';
+---
+
+<div class="relative overflow-hidden">
+	<div class="pointer-events-none absolute -left-40 top-[-120px] h-[360px] w-[360px] rounded-full bg-[rgba(44,166,255,0.18)] blur-[140px]"></div>
+	<div class="pointer-events-none absolute right-[-120px] top-[120px] h-[340px] w-[340px] rounded-full bg-[rgba(10,61,154,0.35)] blur-[160px]"></div>
+
+	<SiteHeader />
+	<HeroSection />
+	<AboutSection />
+	<SkillsSection groups={skillGroups} />
+	<ProjectsSection projects={projects} />
+	<PhotoSection gear={photoGear} />
+	<ContactSection />
+	<SiteFooter />
+</div>

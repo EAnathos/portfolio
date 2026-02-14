@@ -1,0 +1,60 @@
+<section id="contact" class="relative z-10 mx-auto w-full max-w-6xl px-6 pb-24">
+	<div class="grid gap-10 md:grid-cols-[1.1fr_0.9fr]">
+		<div class="fade-up space-y-5">
+			<p class="text-xs uppercase tracking-[0.35em] text-[color:var(--ink-2)]">Contact</p>
+			<h2 class="text-3xl font-semibold">Parlons de ton projet.</h2>
+			<p class="text-[color:var(--ink-1)]">
+				Pour un projet web, une collaboration ou une question, je reponds rapidement.
+			</p>
+			<div class="space-y-3 text-sm text-[color:var(--ink-1)]">
+				<p>Email: contact@eanathos.me</p>
+				<p>
+					Github:
+					<a
+						href="https://github.com/EAnathos"
+						target="_blank"
+						rel="noreferrer"
+						class="transition hover:text-[color:var(--ink-0)]"
+					>
+						github.com/EAnathos
+					</a>
+				</p>
+			</div>
+		</div>
+		<form class="fade-up fade-up-1 space-y-4 rounded-3xl border border-[rgba(44,166,255,0.18)] bg-[rgba(6,15,36,0.75)] p-6">
+			<div>
+				<label class="text-xs uppercase tracking-[0.3em] text-[color:var(--ink-2)]" for="email">Email</label>
+				<input
+					id="email"
+					type="email"
+					placeholder="you@company.com"
+					class="mt-2 w-full rounded-2xl border border-[rgba(44,166,255,0.2)] bg-[rgba(7,20,46,0.9)] px-4 py-3 text-sm text-[color:var(--ink-0)] placeholder:text-[color:var(--ink-2)]"
+				/>
+			</div>
+			<div>
+				<label class="text-xs uppercase tracking-[0.3em] text-[color:var(--ink-2)]" for="subject">Sujet</label>
+				<input
+					id="subject"
+					type="text"
+					placeholder="Collaboration"
+					class="mt-2 w-full rounded-2xl border border-[rgba(44,166,255,0.2)] bg-[rgba(7,20,46,0.9)] px-4 py-3 text-sm text-[color:var(--ink-0)] placeholder:text-[color:var(--ink-2)]"
+				/>
+			</div>
+			<div>
+				<label class="text-xs uppercase tracking-[0.3em] text-[color:var(--ink-2)]" for="message">Message</label>
+				<textarea
+					id="message"
+					rows="4"
+					placeholder="Ton message"
+					class="mt-2 w-full rounded-2xl border border-[rgba(44,166,255,0.2)] bg-[rgba(7,20,46,0.9)] px-4 py-3 text-sm text-[color:var(--ink-0)] placeholder:text-[color:var(--ink-2)]"
+				></textarea>
+			</div>
+			<button
+				type="button"
+				class="w-full rounded-full bg-[color:var(--accent-0)] px-6 py-3 text-sm font-semibold text-[#040b1e] transition hover:brightness-110"
+			>
+				Envoyer
+			</button>
+		</form>
+	</div>
+</section>

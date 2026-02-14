@@ -1,0 +1,47 @@
+---
+import { Image } from 'astro:assets';
+import heroImage from '../../assets/me.jpg';
+---
+
+<section class="relative z-10 mx-auto grid w-full max-w-6xl items-center gap-12 px-6 pb-20 pt-10 md:grid-cols-[1.15fr_0.85fr]">
+	<div class="space-y-8">
+		<div class="fade-up">
+			<h1 class="mt-4 text-4xl font-semibold leading-tight md:text-5xl">
+				Hello, je suis <span class="text-[color:var(--accent-0)]">EAnathos</span>.
+			</h1>
+			<p class="mt-4 max-w-xl text-lg text-[color:var(--ink-1)]">
+				Etudiant en Master Développement Full Stack, je conçois des experiences web solides.
+				À côté de mes études, je fais aussi de la macrophotographie.
+			</p>
+		</div>
+		<div class="fade-up fade-up-1 flex flex-wrap gap-4">
+			<a
+				href="#projets"
+				class="rounded-full bg-[color:var(--accent-0)] px-6 py-3 text-sm font-semibold text-[#040b1e] transition hover:brightness-110"
+			>
+				Voir mes projets
+			</a>
+			<a
+				href="/cv.pdf"
+				class="rounded-full border border-[rgba(44,166,255,0.35)] px-6 py-3 text-sm font-semibold text-[color:var(--ink-0)] transition hover:border-[rgba(44,166,255,0.7)]"
+			>
+				Telecharger mon CV
+			</a>
+		</div>
+	</div>
+	<div class="fade-up fade-up-1 relative">
+		<div class="float-slow absolute -left-6 -top-6 h-20 w-20 rounded-3xl border border-[rgba(44,166,255,0.45)] bg-[rgba(44,166,255,0.12)]"></div>
+		<div class="rounded-[36px] border border-[rgba(44,166,255,0.2)] bg-[rgba(4,10,26,0.8)] p-6 shadow-[0_40px_120px_rgba(3,8,23,0.65)]">
+			<div class="overflow-hidden rounded-[28px] border border-[rgba(44,166,255,0.18)]">
+				<Image
+					src={heroImage}
+					alt="Photo de EAnathos"
+					width={640}
+					height={480}
+					loading="eager"
+					class="h-[320px] w-full object-cover"
+				/>
+			</div>
+		</div>
+	</div>
+</section>

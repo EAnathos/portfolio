@@ -1,0 +1,95 @@
+@import "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap";
+@import "tailwindcss";
+
+@layer base {
+	:root {
+		--bg-0: #050a1c;
+		--bg-1: #08122b;
+		--bg-2: #0a1638;
+		--ink-0: #e9f0ff;
+		--ink-1: #b6c4e6;
+		--ink-2: #7f92b9;
+		--accent-0: #2ca6ff;
+		--accent-1: #1b6dff;
+		--accent-2: #0a3d9a;
+		--glow-0: rgba(44, 166, 255, 0.35);
+		--glow-1: rgba(27, 109, 255, 0.2);
+	}
+
+	* {
+		box-sizing: border-box;
+	}
+
+	:focus-visible {
+		outline: 2px solid var(--accent-0);
+		outline-offset: 2px;
+	}
+
+	body {
+		margin: 0;
+		min-height: 100%;
+		font-family: "Space Grotesk", "Segoe UI", sans-serif;
+		color: var(--ink-0);
+		background:
+			radial-gradient(1200px 600px at 15% -10%, rgba(44, 166, 255, 0.15), transparent 60%),
+			radial-gradient(900px 520px at 90% 15%, rgba(10, 61, 154, 0.28), transparent 55%),
+			linear-gradient(135deg, var(--bg-0) 0%, var(--bg-1) 45%, var(--bg-2) 100%);
+		text-rendering: optimizeLegibility;
+	}
+
+	code,
+	pre {
+		font-family: "IBM Plex Mono", "Cascadia Code", "Courier New", monospace;
+	}
+
+	a {
+		color: inherit;
+	}
+}
+
+@layer utilities {
+	.fade-up {
+		animation: fadeUp 0.8s ease both;
+	}
+
+	.fade-up-1 {
+		animation-delay: 0.12s;
+	}
+
+	.fade-up-2 {
+		animation-delay: 0.22s;
+	}
+
+	.fade-up-3 {
+		animation-delay: 0.32s;
+	}
+
+	.fade-up-4 {
+		animation-delay: 0.42s;
+	}
+
+	.float-slow {
+		animation: floatSlow 8s ease-in-out infinite;
+	}
+}
+
+@keyframes fadeUp {
+	from {
+		opacity: 0;
+		transform: translateY(14px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes floatSlow {
+	0%,
+	100% {
+		transform: translateY(0);
+	}
+	50% {
+		transform: translateY(-12px);
+	}
+}

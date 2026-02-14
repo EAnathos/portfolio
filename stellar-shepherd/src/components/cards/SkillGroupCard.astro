@@ -1,0 +1,45 @@
+---
+import type { SkillGroup } from '../../data/portfolioData';
+
+const { group } = Astro.props as { group: SkillGroup };
+---
+
+<div class="fade-up fade-up-1 rounded-3xl border border-[rgba(44,166,255,0.18)] bg-[rgba(6,15,36,0.75)] p-6">
+	<p class="text-sm uppercase tracking-[0.3em] text-[color:var(--ink-2)]">{group.title}</p>
+	<div class="mt-4 flex flex-wrap gap-2">
+		{group.items.map((item) => (
+			item.url ? (
+				<a
+					href={item.url}
+					target="_blank"
+					rel="noreferrer"
+					class="inline-flex items-center gap-2 rounded-full border border-[rgba(44,166,255,0.28)] bg-[rgba(7,20,46,0.8)] px-3 py-1 text-xs text-[color:var(--ink-1)] transition hover:border-[rgba(44,166,255,0.6)]"
+				>
+					{item.iconSvg ? (
+						<span
+							class="inline-flex h-4 w-4"
+							aria-hidden="true"
+							set:html={item.iconSvg}
+						></span>
+					) : (
+						<i class={`text-sm ${item.icon ?? ''}`} aria-hidden="true"></i>
+					)}
+					<span>{item.name}</span>
+				</a>
+			) : (
+				<span class="inline-flex items-center gap-2 rounded-full border border-[rgba(44,166,255,0.28)] bg-[rgba(7,20,46,0.8)] px-3 py-1 text-xs text-[color:var(--ink-1)]">
+					{item.iconSvg ? (
+						<span
+							class="inline-flex h-4 w-4"
+							aria-hidden="true"
+							set:html={item.iconSvg}
+						></span>
+					) : (
+						<i class={`text-sm ${item.icon ?? ''}`} aria-hidden="true"></i>
+					)}
+					<span>{item.name}</span>
+				</span>
+			)
+		))}
+	</div>
+</div>

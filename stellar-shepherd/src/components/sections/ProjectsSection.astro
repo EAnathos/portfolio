@@ -1,0 +1,18 @@
+---
+import type { Project } from '../../data/portfolioData';
+import ProjectCard from '../cards/ProjectCard.astro';
+
+const { projects } = Astro.props as { projects: Project[] };
+---
+
+<section id="projets" class="relative z-10 mx-auto w-full max-w-6xl px-6 pb-20">
+	<div class="fade-up">
+		<p class="text-xs uppercase tracking-[0.35em] text-[color:var(--ink-2)]">Projets</p>
+		<h2 class="mt-3 text-3xl font-semibold">Quelques realisations.</h2>
+	</div>
+	<div class="mt-10 grid gap-6 md:grid-cols-3">
+		{projects.map((project) => (
+			<ProjectCard project={project} />
+		))}
+	</div>
+</section>

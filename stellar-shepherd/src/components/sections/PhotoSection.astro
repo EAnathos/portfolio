@@ -1,0 +1,125 @@
+---
+import { Image } from 'astro:assets';
+import photoImage from '../../assets/photo.jpg';
+import instagramIcon from '../../assets/icons/instagram.svg?raw';
+import type { PhotoGearItem as PhotoGearItemType } from '../../data/portfolioData';
+import PhotoGearItem from '../cards/PhotoGearItem.astro';
+
+const { gear } = Astro.props as { gear: PhotoGearItemType[] };
+---
+
+<section id="photo" class="relative z-10 mx-auto w-full max-w-6xl px-6 pb-20">
+	<div class="rounded-[36px] border border-[rgba(44,166,255,0.2)] bg-[linear-gradient(120deg,rgba(6,18,48,0.9),rgba(6,12,34,0.9))] p-10 md:p-12">
+		<div class="grid gap-10 md:grid-cols-[1.1fr_0.9fr]">
+			<div class="fade-up">
+				<p class="text-xs uppercase tracking-[0.35em] text-[color:var(--ink-2)]">Photographie animaliere</p>
+				<h2 class="mt-3 text-3xl font-semibold">Un regard sur les details.</h2>
+				<p class="mt-4 text-[color:var(--ink-1)]">
+					Decouvre ma selection d images macro, mes series et les stories associees.
+				</p>
+				<div class="mt-6 flex flex-wrap gap-3">
+					<a
+						href="https://anathos.me/photo-portfolio"
+						class="inline-flex items-center gap-2 rounded-full border border-[rgba(44,166,255,0.35)] px-6 py-3 text-sm font-semibold text-[color:var(--ink-0)] transition hover:border-[rgba(44,166,255,0.7)]"
+					>
+						Voir le portfolio photo
+					</a>
+					<a
+						href="https://www.instagram.com/anathos_microcosmos/"
+						class="inline-flex items-center gap-2 rounded-full border border-[rgba(44,166,255,0.35)] px-6 py-3 text-sm font-semibold text-[color:var(--ink-0)] transition hover:border-[rgba(44,166,255,0.7)]"
+					>
+						<span
+							class="inline-flex h-4 w-4"
+							aria-hidden="true"
+							set:html={instagramIcon}
+						></span>
+						Instagram
+					</a>
+				</div>
+				<div class="mt-6 overflow-hidden rounded-3xl border border-[rgba(44,166,255,0.2)] bg-[rgba(7,20,46,0.85)]">
+					<button
+						type="button"
+						class="group relative block w-full"
+						data-open-macro
+						aria-haspopup="dialog"
+						aria-controls="macro-dialog"
+					>
+						<Image
+							src={photoImage}
+							alt="Exemple de photographie animaliere"
+							width={960}
+							height={720}
+							class="h-80 w-full object-cover object-[center_top]"
+							loading="lazy"
+						/>
+						<span class="absolute inset-0 flex items-end justify-end bg-[rgba(6,12,34,0.0)] p-4 text-xs font-semibold text-[color:var(--ink-0)] transition group-hover:bg-[rgba(6,12,34,0.35)]">
+							<span class="rounded-full border border-[rgba(44,166,255,0.45)] bg-[rgba(7,20,46,0.8)] px-3 py-1">
+								Cliquer pour agrandir
+							</span>
+						</span>
+						<span class="sr-only">Ouvrir la photo en grand</span>
+					</button>
+				</div>
+				<dialog
+					id="macro-dialog"
+					class="m-auto max-w-[92vw] rounded-3xl border border-[rgba(44,166,255,0.25)] bg-[rgba(6,12,34,0.96)] p-0 text-[color:var(--ink-0)]"
+				>
+					<div class="flex items-center justify-between border-b border-[rgba(44,166,255,0.2)] px-5 py-4">
+						<p class="text-sm uppercase tracking-[0.3em] text-[color:var(--ink-2)]">Photographie animaliere</p>
+						<form method="dialog">
+							<button
+								type="submit"
+								class="rounded-full border border-[rgba(44,166,255,0.35)] px-3 py-1 text-xs font-semibold text-[color:var(--ink-0)] transition hover:border-[rgba(44,166,255,0.7)]"
+							>
+								Fermer
+							</button>
+						</form>
+					</div>
+					<div class="flex items-center justify-center p-5">
+						<Image
+							src={photoImage}
+							alt="Exemple de photographie animaliere en grand"
+							width={1200}
+							height={900}
+							class="max-h-[80vh] w-auto max-w-[90vw] rounded-2xl border border-[rgba(44,166,255,0.2)] object-contain"
+							loading="lazy"
+						/>
+					</div>
+				</dialog>
+			</div>
+			<div class="fade-up fade-up-1 grid gap-4">
+				<div class="h-fit rounded-3xl border border-[rgba(44,166,255,0.2)] bg-[rgba(7,20,46,0.85)] p-6">
+					<p class="text-sm uppercase tracking-[0.3em] text-[color:var(--ink-2)]">Univers</p>
+					<p class="mt-3 text-sm text-[color:var(--ink-1)]">
+						Mon travail se concentre surtout sur des arthropodes dans leur environnement naturel, avec une specialisation en macrophotographie.
+					</p>
+				</div>
+				<div class="h-fit rounded-3xl border border-[rgba(44,166,255,0.2)] bg-[rgba(7,20,46,0.85)] p-6">
+					<p class="text-sm uppercase tracking-[0.3em] text-[color:var(--ink-2)]">Materiel</p>
+					<ul class="mt-4 space-y-3 text-sm text-[color:var(--ink-1)]">
+						{gear.map((item) => (
+							<PhotoGearItem item={item} />
+						))}
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<script>
+	const openMacroButton = document.querySelector('[data-open-macro]');
+	const macroDialog = document.querySelector('#macro-dialog') as HTMLDialogElement;
+	if (openMacroButton && macroDialog) {
+		openMacroButton.addEventListener('click', () => {
+			if (typeof macroDialog.showModal === 'function') {
+				macroDialog.showModal();
+			}
+		});
+		macroDialog.addEventListener('click', (event) => {
+			if (event.target === macroDialog) {
+				macroDialog.close();
+			}
+		});
+	}
+</script>
