@@ -10,31 +10,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - name: Post-deploy commands (git pull & pm2 restart)
+        uses: appleboy/ssh-action@v0.1.10
         with:
-          node-version: "20"
-          cache: "npm"
-
-      - name: Install
-        run: npm ci
-
-      - name: Build
-        run: npm run build
-
-      - name: Copy runtime package files
-        run: cp package.json package-lock.json dist/
-
-      - name: Deploy via rsync
-        uses: burnett01/rsync-deployments@7.0.1
-        with:
-          switches: -avz --delete
-          path: dist/
-          remote_path: /var/www/anathos/
-          remote_host: ${{ secrets.SSH_HOST }}
-          remote_user: ${{ secrets.SSH_USER }}
-          remote_key: ${{ secrets.SSH_KEY }}
-          remote_key_pass: ${{ secrets.SSH_KEY_PASS }}
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          passphrase: ${{ secrets.SSH_KEY_PASS }}
+          script: |
+            cd ~/eanathos/portfolio
+            git pull
+            pm2 restart portfolio
