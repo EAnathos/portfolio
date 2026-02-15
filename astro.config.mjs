@@ -7,6 +7,9 @@ import tailwindcss from "@tailwindcss/vite";
 // https://astro.build/config
 export default defineConfig({
   site: "https://anathos.me",
+  security: {
+    checkOrigin: false,
+  },
   output: "server",
   adapter: node({ mode: "standalone" }),
   vite: {
