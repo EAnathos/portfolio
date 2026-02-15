@@ -1,6 +1,8 @@
 import type { APIRoute } from "astro";
 import { Resend } from "resend";
 
+export const prerender = false;
+
 type ContactPayload = {
   email: string;
   subject: string;
