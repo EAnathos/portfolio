@@ -62,8 +62,8 @@ export const POST: APIRoute = async ({ request }) => {
         <body style="margin:0; padding:0;">
           <div style="max-width:600px;margin:40px auto;padding:32px;background:#08122b;border-radius:16px;box-shadow:0 4px 24px rgba(44,166,255,0.12);">
             <h2 style="color:#2ca6ff;margin-bottom:24px;">Nouveau message de contact</h2>
-            <p><strong>Email:</strong> ${payload.email}</p>
-            <p><strong>Sujet:</strong> ${payload.subject}</p>
+            <p><strong style="color:#e9f0ff;">Email :</strong> ${payload.email}</p>
+            <p><strong style="color:#e9f0ff;">Sujet :</strong> ${payload.subject}</p>
             <div style="margin:24px 0;padding:16px;background:#0a1638;border-radius:8px;color:#b6c4e6;">
               ${payload.message.replace(/\n/g, '<br>')}
             </div>
