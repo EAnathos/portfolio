@@ -7,14 +7,14 @@ type ContactPayload = {
 	message: string;
 };
 
-const toAddress = import.meta.env.CONTACT_TO ?? 'eanathos@gmail.com';
-const fromAddress = import.meta.env.RESEND_FROM;
+const toAddress = process.env.CONTACT_TO ?? 'eanathos@gmail.com';
+const fromAddress = process.env.RESEND_FROM;
 
 const isValidPayload = (payload: Partial<ContactPayload>): payload is ContactPayload =>
 	!!payload.email && !!payload.subject && !!payload.message;
 
 export const POST: APIRoute = async ({ request }) => {
-	if (!import.meta.env.RESEND_API_KEY) {
+	if (!process.env.RESEND_API_KEY) {
 		return new Response(JSON.stringify({ message: 'Configuration email manquante.' }), {
 			status: 500,
 			headers: { 'Content-Type': 'application/json' },
@@ -46,7 +46,7 @@ export const POST: APIRoute = async ({ request }) => {
 	}
 
 	try {
-		const resend = new Resend(import.meta.env.RESEND_API_KEY);
+		const resend = new Resend(process.env.RESEND_API_KEY);
 		await resend.emails.send({
 			from: fromAddress,
 			to: [toAddress],
