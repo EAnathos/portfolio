@@ -1,0 +1,62 @@
+---
+import { Image } from 'astro:assets';
+import type { PhotographyItem } from '../../data/photography';
+
+const { item } = Astro.props as { item: PhotographyItem };
+---
+
+<article class="group overflow-hidden rounded-3xl border border-[rgba(44,166,255,0.18)] bg-[rgba(6,15,36,0.78)] shadow-[0_24px_80px_rgba(3,8,23,0.28)] transition duration-300 hover:-translate-y-1 hover:border-[rgba(44,166,255,0.38)]">
+	<button
+		type="button"
+		class="relative block w-full overflow-hidden text-left"
+		data-open-photo={item.dialogId}
+		data-photo-collection={item.collection}
+		data-photo-index={item.index}
+		aria-haspopup="dialog"
+		aria-controls={item.dialogId}
+		aria-label={`Ouvrir la photographie ${item.title}`}
+	>
+		<Image
+			src={item.image}
+			alt={item.alt}
+			width={1200}
+			height={900}
+			class="h-72 w-full object-cover object-center transition duration-500 group-hover:scale-[1.03]"
+			loading="lazy"
+		/>
+		<div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[rgba(4,10,26,0.9)] to-transparent px-4 pb-4 pt-12">
+			<p class="text-lg font-semibold text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">{item.title}</p>
+		</div>
+		<span class="sr-only">Cliquer pour ouvrir en grand</span>
+	</button>
+
+	<dialog
+		id={item.dialogId}
+		data-photo-dialog
+		data-photo-collection={item.collection}
+		data-photo-index={item.index}
+		class="m-auto w-[min(92vw,72rem)] rounded-3xl border border-[rgba(44,166,255,0.25)] bg-[rgba(6,12,34,0.96)] p-0 text-[color:var(--ink-0)] shadow-[0_40px_140px_rgba(3,8,23,0.7)]"
+	>
+		<div class="flex items-center justify-between border-b border-[rgba(44,166,255,0.2)] px-5 py-4">
+			<p class="text-sm font-semibold text-white">{item.title}</p>
+			<form method="dialog">
+				<button
+					type="submit"
+					class="rounded-full border border-[rgba(44,166,255,0.35)] px-3 py-1 text-xs font-semibold text-[color:var(--ink-0)] transition hover:border-[rgba(44,166,255,0.7)]"
+				>
+					Fermer
+				</button>
+			</form>
+		</div>
+		<div class="flex items-center justify-center p-5">
+			<Image
+				src={item.image}
+				alt={item.alt}
+				width={1800}
+				height={1400}
+				class="max-h-[80vh] w-auto max-w-full rounded-2xl border border-[rgba(44,166,255,0.2)] object-contain"
+				loading="lazy"
+			/>
+		</div>
+	</dialog>
+</article>

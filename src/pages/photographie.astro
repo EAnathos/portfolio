@@ -1,0 +1,182 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SiteHeader from '../components/sections/SiteHeader.astro';
+import SiteFooter from '../components/sections/SiteFooter.astro';
+import PhotographyCard from '../components/cards/PhotographyCard.astro';
+import { photographyCollections, photographyOverview } from '../data/photography';
+
+const navLinks = [
+	{ href: '/', label: 'Accueil' },
+	{ href: '#macrophotography', label: 'Macrophotographie' },
+	{ href: '#other', label: 'Autres' },
+	{ href: '#contact', label: 'Contact' }
+];
+---
+
+<Layout
+	title="EAnathos | Photographie"
+	description="Portfolio photographique de EAnathos, organisé entre macrophotographie et autres prises de vue."
+>
+	<div class="relative overflow-hidden">
+		<div class="pointer-events-none absolute -left-40 top-[-120px] h-[360px] w-[360px] rounded-full bg-[rgba(44,166,255,0.18)] blur-[140px]"></div>
+		<div class="pointer-events-none absolute right-[-120px] top-[120px] h-[340px] w-[340px] rounded-full bg-[rgba(10,61,154,0.35)] blur-[160px]"></div>
+
+		<SiteHeader navLinks={navLinks} />
+
+			<main class="relative z-10 mx-auto w-full max-w-6xl px-6 pb-20 pt-8">
+				<section class="rounded-[36px] border border-[rgba(44,166,255,0.18)] bg-[rgba(6,15,36,0.72)] p-8 shadow-[0_32px_120px_rgba(3,8,23,0.28)] md:p-10">
+					<div class="fade-up space-y-6">
+						<p class="text-xs uppercase tracking-[0.35em] text-[color:var(--ink-2)]">Portfolio photographique</p>
+						<h1 class="text-4xl font-semibold leading-tight md:text-5xl">
+							Le détail du vivant, en macrophotographie et au-delà.
+						</h1>
+						<p class="max-w-2xl text-lg text-[color:var(--ink-1)]">
+							Cette page rassemble mes images par univers. Les noms affichés reprennent le taxon
+							de chaque sujet, dans une présentation simple et cohérente avec le reste du site.
+						</p>
+						<div class="mt-8 flex flex-wrap gap-3">
+							<a
+								href="https://www.inaturalist.org/people/anathos_"
+								target="_blank"
+								rel="noreferrer"
+								class="rounded-full border border-[rgba(44,166,255,0.35)] px-5 py-2.5 text-sm font-semibold text-[color:var(--ink-0)] transition hover:border-[rgba(44,166,255,0.7)]"
+							>
+								iNaturalist
+							</a>
+							<a
+								href="https://www.instagram.com/anathos_microcosmos/"
+								target="_blank"
+								rel="noreferrer"
+								class="rounded-full border border-[rgba(44,166,255,0.35)] px-5 py-2.5 text-sm font-semibold text-[color:var(--ink-0)] transition hover:border-[rgba(44,166,255,0.7)]"
+							>
+								Instagram
+							</a>
+						</div>
+						<div class="grid gap-4 sm:grid-cols-3 pt-2">
+							<div class="rounded-2xl border border-[rgba(44,166,255,0.18)] bg-[rgba(7,20,46,0.88)] p-4">
+								<p class="text-xs uppercase tracking-[0.3em] text-[color:var(--ink-2)]">Images</p>
+								<p class="mt-2 text-2xl font-semibold">{photographyOverview.total}</p>
+							</div>
+							<div class="rounded-2xl border border-[rgba(44,166,255,0.18)] bg-[rgba(7,20,46,0.88)] p-4">
+								<p class="text-xs uppercase tracking-[0.3em] text-[color:var(--ink-2)]">Macro</p>
+								<p class="mt-2 text-2xl font-semibold">{photographyOverview.macrophotography}</p>
+							</div>
+							<div class="rounded-2xl border border-[rgba(44,166,255,0.18)] bg-[rgba(7,20,46,0.88)] p-4">
+								<p class="text-xs uppercase tracking-[0.3em] text-[color:var(--ink-2)]">Autres</p>
+								<p class="mt-2 text-2xl font-semibold">{photographyOverview.other}</p>
+							</div>
+						</div>
+					</div>
+				</section>
+
+			{photographyCollections.map((collection, index) => (
+				<section id={collection.id} class={`relative z-10 mx-auto w-full max-w-6xl px-0 pb-20 ${index === 0 ? 'pt-20' : 'pt-0'}`}>
+					<div class="fade-up flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+						<div>
+							<h2 class="text-3xl font-semibold">{collection.title}</h2>
+						</div>
+						<p class="max-w-2xl text-sm text-[color:var(--ink-1)]">{collection.description}</p>
+					</div>
+					<div class="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+						{collection.items.map((item) => (
+							<PhotographyCard item={item} />
+						))}
+					</div>
+				</section>
+			))}
+
+			<section id="contact" class="relative z-10 mx-auto w-full max-w-6xl px-0 pb-24">
+				<div class="rounded-[32px] border border-[rgba(44,166,255,0.18)] bg-[rgba(6,15,36,0.78)] p-8 md:flex md:items-center md:justify-between md:gap-8">
+					<div class="space-y-3">
+						<p class="text-xs uppercase tracking-[0.35em] text-[color:var(--ink-2)]">Contact</p>
+						<h2 class="text-3xl font-semibold">Une image t intéresse ?</h2>
+						<p class="max-w-2xl text-[color:var(--ink-1)]">
+							Pour une demande d identification, une collaboration ou une utilisation d image, tu peux me contacter directement.
+						</p>
+					</div>
+					<div class="mt-6 flex flex-wrap gap-3 md:mt-0">
+						<a
+							href="mailto:eanathos@gmail.com"
+							class="rounded-full bg-[color:var(--accent-0)] px-6 py-3 text-sm font-semibold text-[#040b1e] transition hover:brightness-110"
+						>
+							M envoyer un message
+						</a>
+						<a
+							href="/"
+							class="rounded-full border border-[rgba(44,166,255,0.35)] px-6 py-3 text-sm font-semibold text-[color:var(--ink-0)] transition hover:border-[rgba(44,166,255,0.7)]"
+						>
+							Retour au portfolio web
+						</a>
+					</div>
+				</div>
+			</section>
+		</main>
+
+		<SiteFooter />
+	</div>
+
+		<script>
+			const openPhotoButtons = document.querySelectorAll('[data-open-photo]');
+			const dialogs = Array.from(document.querySelectorAll('[data-photo-dialog]')) as HTMLDialogElement[];
+
+			function openDialogById(dialogId: string | null) {
+				const dialog = dialogId ? (document.getElementById(dialogId) as HTMLDialogElement | null) : null;
+
+				if (dialog instanceof HTMLDialogElement && typeof dialog.showModal === 'function') {
+					dialog.showModal();
+					dialog.addEventListener(
+						'click',
+						(event) => {
+							if (event.target === dialog) {
+								dialog.close();
+							}
+						},
+						{ once: true }
+					);
+				}
+			}
+
+			function getSiblingDialog(dialog: HTMLDialogElement, direction: number): HTMLDialogElement | null {
+				const collection = dialog.getAttribute('data-photo-collection');
+				const index = Number(dialog.getAttribute('data-photo-index'));
+				const collectionDialogs = dialogs.filter(
+					(candidate) => candidate.getAttribute('data-photo-collection') === collection
+				);
+
+				if (!collectionDialogs.length || Number.isNaN(index)) {
+					return null;
+				}
+
+				const nextIndex = (index + direction + collectionDialogs.length) % collectionDialogs.length;
+				return collectionDialogs[nextIndex] ?? null;
+			}
+
+			openPhotoButtons.forEach((button) => {
+				button.addEventListener('click', () => {
+					const dialogId = button.getAttribute('data-open-photo');
+					openDialogById(dialogId);
+				});
+			});
+
+			dialogs.forEach((dialog: HTMLDialogElement) => {
+				dialog.addEventListener('keydown', (event) => {
+					if (!(event instanceof KeyboardEvent)) {
+						return;
+					}
+
+					if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') {
+						return;
+					}
+
+					event.preventDefault();
+					const direction = event.key === 'ArrowRight' ? 1 : -1;
+					const siblingDialog = getSiblingDialog(dialog, direction);
+
+					if (siblingDialog) {
+						dialog.close();
+						siblingDialog.showModal();
+					}
+				});
+			});
+		</script>
+</Layout>

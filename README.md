@@ -25,9 +25,9 @@ graph TD
 
 Toutes les commandes se lancent a la racine du projet :
 
-| Commande         | Action                                |
-| :--------------- | :------------------------------------ |
-| `npm install`    | Installe les dependances              |
+| Commande         | Action                                  |
+| :--------------- | :-------------------------------------- |
+| `npm install`    | Installe les dependances                |
 | `npm run dev`    | Lance le serveur local (localhost:4321) |
-| `npm run build`  | Genere le build de production         |
-| `npm run preview`| Previsualise le build                 |
+| `npm run build`  | Genere le build de production           |
+| `npm run preview`| Previsualise le build                   |

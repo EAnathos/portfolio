@@ -2,13 +2,20 @@
 import { Image } from 'astro:assets';
 import logoImage from '../../assets/logo.png';
 
-const navLinks = [
+type NavLink = {
+	href: string;
+	label: string;
+};
+
+const defaultNavLinks: NavLink[] = [
 	{ href: '#a-propos', label: 'A propos' },
 	{ href: '#competences', label: 'Competences' },
 	{ href: '#projets', label: 'Projets' },
-	{ href: '#photo', label: 'Photo' },
+	{ href: '/photographie', label: 'Photographie' },
 	{ href: '#contact', label: 'Contact' }
 ];
+
+const { navLinks = defaultNavLinks } = Astro.props as { navLinks?: NavLink[] };
 ---
 
 <header class="relative z-10 mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-6">
