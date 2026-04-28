@@ -86,28 +86,96 @@ const navLinks = [
 			))}
 
 			<section id="contact" class="relative z-10 mx-auto w-full max-w-6xl px-0 pb-24">
-				<div class="rounded-[32px] border border-[rgba(44,166,255,0.18)] bg-[rgba(6,15,36,0.78)] p-8 md:flex md:items-center md:justify-between md:gap-8">
+				   <div class="rounded-[32px] border border-[rgba(44,166,255,0.18)] bg-[rgba(6,15,36,0.78)] p-8 md:flex md:justify-between md:gap-8">
 					<div class="space-y-3">
 						<p class="text-xs uppercase tracking-[0.35em] text-[color:var(--ink-2)]">Contact</p>
 						<h2 class="text-3xl font-semibold">Une image t intéresse ?</h2>
-						<p class="max-w-2xl text-[color:var(--ink-1)]">
-							Pour une demande d identification, une collaboration ou une utilisation d image, tu peux me contacter directement.
-						</p>
+						   <p class="max-w-2xl text-[color:var(--ink-1)]">
+							   Pour une demande d’identification, une collaboration ou une utilisation d’image, tu peux me contacter directement via le formulaire ci-contre<br />
+							   <span class="block mt-2">Ou sur Instagram&nbsp;:
+								   <a href="https://www.instagram.com/anathos_microcosmos/" target="_blank" rel="noopener" class="underline hover:text-[color:var(--accent-0)]">@anathos_microcosmos/</a>
+							   </span>
+						   </p>
 					</div>
-					<div class="mt-6 flex flex-wrap gap-3 md:mt-0">
-						<a
-							href="mailto:eanathos@gmail.com"
-							class="rounded-full bg-[color:var(--accent-0)] px-6 py-3 text-sm font-semibold text-[#040b1e] transition hover:brightness-110"
-						>
-							M envoyer un message
-						</a>
-						<a
-							href="/"
-							class="rounded-full border border-[rgba(44,166,255,0.35)] px-6 py-3 text-sm font-semibold text-[color:var(--ink-0)] transition hover:border-[rgba(44,166,255,0.7)]"
-						>
-							Retour au portfolio web
-						</a>
-					</div>
+					   <form
+						   class="mt-6 w-full max-w-md space-y-4 rounded-3xl border border-[rgba(44,166,255,0.18)] bg-[rgba(6,15,36,0.75)] p-6 md:mt-0"
+						   method="post"
+						   action="/api/contact"
+						   data-contact-form
+					   >
+						   <div>
+							   <label class="text-xs uppercase tracking-[0.3em] text-[color:var(--ink-2)]" for="email-photo">Email</label>
+							   <input
+								   id="email-photo"
+								   name="email"
+								   type="email"
+								   placeholder="ton@email.com"
+								   required
+								   class="mt-2 w-full rounded-2xl border border-[rgba(44,166,255,0.2)] bg-[rgba(7,20,46,0.9)] px-4 py-3 text-sm text-[color:var(--ink-0)] placeholder:text-[color:var(--ink-2)]"
+							   />
+						   </div>
+						   <div>
+							   <label class="text-xs uppercase tracking-[0.3em] text-[color:var(--ink-2)]" for="subject-photo">Sujet</label>
+							   <input
+								   id="subject-photo"
+								   name="subject"
+								   type="text"
+								   placeholder="Demande d'identification, collaboration, etc."
+								   required
+								   class="mt-2 w-full rounded-2xl border border-[rgba(44,166,255,0.2)] bg-[rgba(7,20,46,0.9)] px-4 py-3 text-sm text-[color:var(--ink-0)] placeholder:text-[color:var(--ink-2)]"
+							   />
+						   </div>
+						   <div>
+							   <label class="text-xs uppercase tracking-[0.3em] text-[color:var(--ink-2)]" for="message-photo">Message</label>
+							   <textarea
+								   id="message-photo"
+								   name="message"
+								   rows="4"
+								   placeholder="Explique ta demande ou ton projet photo..."
+								   required
+								   class="mt-2 w-full rounded-2xl border border-[rgba(44,166,255,0.2)] bg-[rgba(7,20,46,0.9)] px-4 py-3 text-sm text-[color:var(--ink-0)] placeholder:text-[color:var(--ink-2)]"
+							   ></textarea>
+						   </div>
+						   <p class="text-sm text-[color:var(--ink-2)]" data-contact-status aria-live="polite"></p>
+						   <button
+							   type="submit"
+							   class="w-full rounded-full bg-[color:var(--accent-0)] px-6 py-3 text-sm font-semibold text-[#040b1e] transition hover:brightness-110"
+						   >
+							   Envoyer
+						   </button>
+						   <a
+							   href="/"
+							   class="mt-2 block w-full rounded-full border border-[rgba(44,166,255,0.35)] px-6 py-3 text-center text-sm font-semibold text-[color:var(--ink-0)] transition hover:border-[rgba(44,166,255,0.7)]"
+						   >
+							   Retour au portfolio web
+						   </a>
+					   </form>
+				<script>
+				const form = document.querySelector('[data-contact-form]') as HTMLFormElement | null;
+				const statusEl = document.querySelector('[data-contact-status]');
+
+				if (form && statusEl instanceof HTMLElement) {
+					form.addEventListener('submit', async (event) => {
+						event.preventDefault();
+						statusEl.textContent = 'Envoi en cours...';
+
+						const response = await fetch(form.action, {
+							method: 'POST',
+							body: new FormData(form),
+						});
+
+						if (response.ok) {
+							form.reset();
+							statusEl.textContent = 'Message envoyé. Je reviens vers toi rapidement.';
+							return;
+						}
+
+						const data = await response.json().catch(() => ({}));
+						statusEl.textContent =
+							data?.message || "Impossible d'envoyer le message pour le moment.";
+					});
+				}
+				</script>
 				</div>
 			</section>
 		</main>
