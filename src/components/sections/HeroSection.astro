@@ -1,17 +1,19 @@
 ---
 import { Image } from 'astro:assets';
-import heroImage from '../../assets/me.jpg';
+import heroImage from '../../assets/me.png';
+import type { Translations } from '../../i18n/translations';
+
+const { t } = Astro.props as { t: Translations };
 ---
 
 <section class="relative z-10 mx-auto grid w-full max-w-6xl items-center gap-12 px-6 pb-20 pt-10 md:grid-cols-[1.15fr_0.85fr]">
 	<div class="space-y-8">
 		<div class="fade-up">
 			<h1 class="mt-4 text-4xl font-semibold leading-tight md:text-5xl">
-				Hello, je suis <span class="text-[color:var(--accent-0)]">EAnathos</span>.
+				{t.hero.greeting} <span class="text-[color:var(--accent-0)]">EAnathos</span>.
 			</h1>
 			<p class="mt-4 max-w-xl text-lg text-[color:var(--ink-1)]">
-				Etudiant en Master Développement Full Stack, je conçois des experiences web solides.
-				À côté de mes études, je fais aussi de la macrophotographie.
+				{t.hero.subtitle}
 			</p>
 		</div>
 		<div class="fade-up fade-up-1 flex flex-wrap gap-4">
@@ -19,14 +21,20 @@ import heroImage from '../../assets/me.jpg';
 				href="#projets"
 				class="rounded-full bg-[color:var(--accent-0)] px-6 py-3 text-sm font-semibold text-[#040b1e] transition hover:brightness-110"
 			>
-				Voir mes projets
+				{t.hero.cta_projects}
 			</a>
-			<a
-				href="/cv.pdf"
-				class="rounded-full border border-[rgba(44,166,255,0.35)] px-6 py-3 text-sm font-semibold text-[color:var(--ink-0)] transition hover:border-[rgba(44,166,255,0.7)]"
-			>
-				Telecharger mon CV
-			</a>
+			<div class="group relative">
+				<span
+					class="cursor-not-allowed rounded-full border border-[rgba(44,166,255,0.15)] px-6 py-3 text-sm font-semibold text-[color:var(--ink-2)] opacity-40 select-none inline-block"
+					aria-disabled="true"
+				>
+					{t.hero.cta_cv}
+				</span>
+				<div class="pointer-events-none absolute bottom-full left-1/2 mb-3 -translate-x-1/2 whitespace-nowrap rounded-xl border border-[rgba(44,166,255,0.25)] bg-[rgba(6,15,36,0.95)] px-4 py-2.5 text-xs font-medium text-[color:var(--ink-1)] opacity-0 shadow-lg transition-opacity duration-200 group-hover:opacity-100">
+					{t.hero.cv_unavailable}
+					<span class="absolute left-1/2 top-full -translate-x-1/2 border-4 border-transparent border-t-[rgba(44,166,255,0.25)]"></span>
+				</div>
+			</div>
 		</div>
 	</div>
 	<div class="fade-up fade-up-1 relative">

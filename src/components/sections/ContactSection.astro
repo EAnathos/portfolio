@@ -1,11 +1,14 @@
+---
+import type { Translations } from '../../i18n/translations';
+const { t } = Astro.props as { t: Translations };
+---
+
 <section id="contact" class="relative z-10 mx-auto w-full max-w-6xl px-6 pb-24">
 	<div class="grid gap-10 md:grid-cols-[1.1fr_0.9fr]">
 		<div class="fade-up space-y-5">
-			<p class="text-xs uppercase tracking-[0.35em] text-[color:var(--ink-2)]">Contact</p>
-			<h2 class="text-3xl font-semibold">Parlons de ton projet.</h2>
-			<p class="text-[color:var(--ink-1)]">
-				Pour un projet web, une collaboration ou une question, je reponds rapidement.
-			</p>
+			<p class="text-xs uppercase tracking-[0.35em] text-[color:var(--ink-2)]">{t.contact.label}</p>
+			<h2 class="text-3xl font-semibold">{t.contact.title}</h2>
+			<p class="text-[color:var(--ink-1)]">{t.contact.subtitle}</p>
 			<div class="space-y-3 text-sm text-[color:var(--ink-1)]">
 				<p>Email: <a href="mailto:eanathos@gmail.com" class="transition hover:text-[color:var(--ink-0)]">eanathos@gmail.com</a></p>
 				<p>
@@ -28,7 +31,7 @@
 			data-contact-form
 		>
 			<div>
-				<label class="text-xs uppercase tracking-[0.3em] text-[color:var(--ink-2)]" for="email">Email</label>
+				<label class="text-xs uppercase tracking-[0.3em] text-[color:var(--ink-2)]" for="email">{t.contact.email_label}</label>
 				<input
 					id="email"
 					name="email"
@@ -39,23 +42,23 @@
 				/>
 			</div>
 			<div>
-				<label class="text-xs uppercase tracking-[0.3em] text-[color:var(--ink-2)]" for="subject">Sujet</label>
+				<label class="text-xs uppercase tracking-[0.3em] text-[color:var(--ink-2)]" for="subject">{t.contact.subject_label}</label>
 				<input
 					id="subject"
 					name="subject"
 					type="text"
-					placeholder="Collaboration"
+					placeholder={t.contact.subject_placeholder}
 					required
 					class="mt-2 w-full rounded-2xl border border-[rgba(44,166,255,0.2)] bg-[rgba(7,20,46,0.9)] px-4 py-3 text-sm text-[color:var(--ink-0)] placeholder:text-[color:var(--ink-2)]"
 				/>
 			</div>
 			<div>
-				<label class="text-xs uppercase tracking-[0.3em] text-[color:var(--ink-2)]" for="message">Message</label>
+				<label class="text-xs uppercase tracking-[0.3em] text-[color:var(--ink-2)]" for="message">{t.contact.message_label}</label>
 				<textarea
 					id="message"
 					name="message"
 					rows="4"
-					placeholder="Ton message"
+					placeholder={t.contact.message_placeholder}
 					required
 					class="mt-2 w-full rounded-2xl border border-[rgba(44,166,255,0.2)] bg-[rgba(7,20,46,0.9)] px-4 py-3 text-sm text-[color:var(--ink-0)] placeholder:text-[color:var(--ink-2)]"
 				></textarea>
@@ -65,20 +68,20 @@
 				type="submit"
 				class="w-full rounded-full bg-[color:var(--accent-0)] px-6 py-3 text-sm font-semibold text-[#040b1e] transition hover:brightness-110"
 			>
-				Envoyer
+				{t.contact.submit}
 			</button>
 		</form>
 	</div>
 </section>
 
-<script>
-	const form = document.querySelector('[data-contact-form]') as HTMLFormElement | null;
+<script define:vars={{ sending: t.contact.sending, success: t.contact.success, error: t.contact.error }}>
+	const form = document.querySelector('[data-contact-form]');
 	const statusEl = document.querySelector('[data-contact-status]');
 
-	if (form && statusEl instanceof HTMLElement) {
+	if (form && statusEl) {
 		form.addEventListener('submit', async (event) => {
 			event.preventDefault();
-			statusEl.textContent = 'Envoi en cours...';
+			statusEl.textContent = sending;
 
 			const response = await fetch(form.action, {
 				method: 'POST',
@@ -87,13 +90,12 @@
 
 			if (response.ok) {
 				form.reset();
-				statusEl.textContent = 'Message envoye. Je reviens vers toi rapidement.';
+				statusEl.textContent = success;
 				return;
 			}
 
 			const data = await response.json().catch(() => ({}));
-			statusEl.textContent =
-				data?.message || "Impossible d'envoyer le message pour le moment.";
+			statusEl.textContent = data?.message || error;
 		});
 	}
 </script>

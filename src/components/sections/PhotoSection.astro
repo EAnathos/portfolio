@@ -3,26 +3,25 @@ import { Image } from 'astro:assets';
 import photoImage from '../../assets/photo.jpg';
 import instagramIcon from '../../assets/icons/instagram.svg?raw';
 import type { PhotoGearItem as PhotoGearItemType } from '../../data/portfolioData';
+import type { Translations } from '../../i18n/translations';
 import PhotoGearItem from '../cards/PhotoGearItem.astro';
 
-const { gear } = Astro.props as { gear: PhotoGearItemType[] };
+const { gear, t } = Astro.props as { gear: PhotoGearItemType[]; t: Translations };
 ---
 
 <section id="photo" class="relative z-10 mx-auto w-full max-w-6xl px-6 pb-20">
 	<div class="rounded-[36px] border border-[rgba(44,166,255,0.2)] bg-[linear-gradient(120deg,rgba(6,18,48,0.9),rgba(6,12,34,0.9))] p-10 md:p-12">
 		<div class="grid gap-10 md:grid-cols-[1.1fr_0.9fr]">
 			<div class="fade-up">
-				<p class="text-xs uppercase tracking-[0.35em] text-[color:var(--ink-2)]">Photographie animaliere</p>
-				<h2 class="mt-3 text-3xl font-semibold">Un regard sur les details.</h2>
-				<p class="mt-4 text-[color:var(--ink-1)]">
-					Decouvre ma selection d images macro, mes series et les stories associees.
-				</p>
+				<p class="text-xs uppercase tracking-[0.35em] text-[color:var(--ink-2)]">{t.photo.label}</p>
+				<h2 class="mt-3 text-3xl font-semibold">{t.photo.title}</h2>
+				<p class="mt-4 text-[color:var(--ink-1)]">{t.photo.subtitle}</p>
 				<div class="mt-6 flex flex-wrap gap-3">
 					<a
-						href="/photographie"
+						href={t.lang === 'en' ? '/en/photographie' : '/photographie'}
 						class="inline-flex items-center gap-2 rounded-full border border-[rgba(44,166,255,0.35)] px-6 py-3 text-sm font-semibold text-[color:var(--ink-0)] transition hover:border-[rgba(44,166,255,0.7)]"
 					>
-						Voir le portfolio photo
+						{t.photo.cta_portfolio}
 					</a>
 					<a
 						href="https://www.inaturalist.org/people/anathos_"
@@ -56,7 +55,7 @@ const { gear } = Astro.props as { gear: PhotoGearItemType[] };
 					>
 						<Image
 							src={photoImage}
-							alt="Exemple de photographie animaliere"
+							alt="Exemple de photographie animalière"
 							width={960}
 							height={720}
 							class="h-80 w-full object-cover object-[center_top]"
@@ -64,10 +63,10 @@ const { gear } = Astro.props as { gear: PhotoGearItemType[] };
 						/>
 						<span class="absolute inset-0 flex items-end justify-end bg-[rgba(6,12,34,0.0)] p-4 text-xs font-semibold text-[color:var(--ink-0)] transition group-hover:bg-[rgba(6,12,34,0.35)]">
 							<span class="rounded-full border border-[rgba(44,166,255,0.45)] bg-[rgba(7,20,46,0.8)] px-3 py-1">
-								Cliquer pour agrandir
+								{t.photo.click_enlarge}
 							</span>
 						</span>
-						<span class="sr-only">Ouvrir la photo en grand</span>
+						<span class="sr-only">{t.photo.open_sr}</span>
 					</button>
 				</div>
 				<dialog
@@ -75,20 +74,20 @@ const { gear } = Astro.props as { gear: PhotoGearItemType[] };
 					class="m-auto max-w-[92vw] rounded-3xl border border-[rgba(44,166,255,0.25)] bg-[rgba(6,12,34,0.96)] p-0 text-[color:var(--ink-0)]"
 				>
 					<div class="flex items-center justify-between border-b border-[rgba(44,166,255,0.2)] px-5 py-4">
-						<p class="text-sm uppercase tracking-[0.3em] text-[color:var(--ink-2)]">Photographie animaliere</p>
+						<p class="text-sm uppercase tracking-[0.3em] text-[color:var(--ink-2)]">{t.photo.dialog_label}</p>
 						<form method="dialog">
 							<button
 								type="submit"
 								class="rounded-full border border-[rgba(44,166,255,0.35)] px-3 py-1 text-xs font-semibold text-[color:var(--ink-0)] transition hover:border-[rgba(44,166,255,0.7)]"
 							>
-								Fermer
+								{t.photo.close}
 							</button>
 						</form>
 					</div>
 					<div class="flex items-center justify-center p-5">
 						<Image
 							src={photoImage}
-							alt="Exemple de photographie animaliere en grand"
+							alt="Exemple de photographie animalière en grand"
 							width={1200}
 							height={900}
 							class="max-h-[80vh] w-auto max-w-[90vw] rounded-2xl border border-[rgba(44,166,255,0.2)] object-contain"
@@ -99,13 +98,11 @@ const { gear } = Astro.props as { gear: PhotoGearItemType[] };
 			</div>
 			<div class="fade-up fade-up-1 grid gap-4">
 				<div class="h-fit rounded-3xl border border-[rgba(44,166,255,0.2)] bg-[rgba(7,20,46,0.85)] p-6">
-					<p class="text-sm uppercase tracking-[0.3em] text-[color:var(--ink-2)]">Univers</p>
-					<p class="mt-3 text-sm text-[color:var(--ink-1)]">
-						Mon travail se concentre surtout sur des arthropodes dans leur environnement naturel, avec une specialisation en macrophotographie.
-					</p>
+					<p class="text-sm uppercase tracking-[0.3em] text-[color:var(--ink-2)]">{t.photo.universe_label}</p>
+					<p class="mt-3 text-sm text-[color:var(--ink-1)]">{t.photo.universe_text}</p>
 				</div>
 				<div class="h-fit rounded-3xl border border-[rgba(44,166,255,0.2)] bg-[rgba(7,20,46,0.85)] p-6">
-					<p class="text-sm uppercase tracking-[0.3em] text-[color:var(--ink-2)]">Materiel</p>
+					<p class="text-sm uppercase tracking-[0.3em] text-[color:var(--ink-2)]">{t.photo.gear_label}</p>
 					<ul class="mt-4 space-y-3 text-sm text-[color:var(--ink-1)]">
 						{gear.map((item) => (
 							<PhotoGearItem item={item} />

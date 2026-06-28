@@ -1,16 +1,16 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import SiteHeader from '../components/sections/SiteHeader.astro';
-import SiteFooter from '../components/sections/SiteFooter.astro';
-import PhotographyCard from '../components/cards/PhotographyCard.astro';
-import { photographyCollections, photographyOverview } from '../data/photography';
-import { getTranslations } from '../i18n/translations';
+import Layout from '../../layouts/Layout.astro';
+import SiteHeader from '../../components/sections/SiteHeader.astro';
+import SiteFooter from '../../components/sections/SiteFooter.astro';
+import PhotographyCard from '../../components/cards/PhotographyCard.astro';
+import { photographyCollections, photographyOverview } from '../../data/photography';
+import { getTranslations } from '../../i18n/translations';
 
-const t = getTranslations('fr');
+const t = getTranslations('en');
 const tp = t.photography_page;
 
 const navLinks = [
-	{ href: '/', label: t.nav.home },
+	{ href: '/en', label: t.nav.home },
 	{ href: '#macrophotography', label: t.nav.macro },
 	{ href: '#other', label: t.nav.other },
 	{ href: '#contact', label: t.nav.contact }
@@ -22,7 +22,7 @@ const navLinks = [
 		<div class="pointer-events-none absolute -left-40 top-[-120px] h-[360px] w-[360px] rounded-full bg-[rgba(44,166,255,0.18)] blur-[140px]"></div>
 		<div class="pointer-events-none absolute right-[-120px] top-[120px] h-[340px] w-[340px] rounded-full bg-[rgba(10,61,154,0.35)] blur-[160px]"></div>
 
-		<SiteHeader navLinks={navLinks} {t} currentPath="/photographie" />
+		<SiteHeader navLinks={navLinks} {t} currentPath="/en/photographie" />
 
 		<main class="relative z-10 mx-auto w-full max-w-6xl px-6 pb-20 pt-8">
 			<section class="rounded-[36px] border border-[rgba(44,166,255,0.18)] bg-[rgba(6,15,36,0.72)] p-8 shadow-[0_32px_120px_rgba(3,8,23,0.28)] md:p-10">
@@ -140,7 +140,7 @@ const navLinks = [
 							{t.contact.submit}
 						</button>
 						<a
-							href="/"
+							href="/en"
 							class="mt-2 block w-full rounded-full border border-[rgba(44,166,255,0.35)] px-6 py-3 text-center text-sm font-semibold text-[color:var(--ink-0)] transition hover:border-[rgba(44,166,255,0.7)]"
 						>
 							{tp.contact_cta}

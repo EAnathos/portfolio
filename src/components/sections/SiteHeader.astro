@@ -1,25 +1,38 @@
 ---
 import { Image } from 'astro:assets';
 import logoImage from '../../assets/logo.png';
+import type { Translations } from '../../i18n/translations';
 
 type NavLink = {
 	href: string;
 	label: string;
 };
 
+interface Props {
+	navLinks?: NavLink[];
+	t: Translations;
+	currentPath?: string;
+}
+
+const { t, currentPath = '/' } = Astro.props as Props;
+
 const defaultNavLinks: NavLink[] = [
-	{ href: '#a-propos', label: 'A propos' },
-	{ href: '#competences', label: 'Competences' },
-	{ href: '#projets', label: 'Projets' },
-	{ href: '/photographie', label: 'Photographie' },
-	{ href: '#contact', label: 'Contact' }
+	{ href: '#a-propos', label: t.nav.about },
+	{ href: '#competences', label: t.nav.skills },
+	{ href: '#projets', label: t.nav.projects },
+	{ href: t.lang === 'en' ? '/en/photographie' : '/photographie', label: t.nav.photography },
+	{ href: '#contact', label: t.nav.contact },
 ];
 
-const { navLinks = defaultNavLinks } = Astro.props as { navLinks?: NavLink[] };
+const { navLinks = defaultNavLinks } = Astro.props as Props;
+
+const otherLang = t.lang === 'fr' ? 'en' : 'fr';
+const otherLangLabel = t.lang === 'fr' ? 'EN' : 'FR';
+const otherLangHref = t.lang === 'fr' ? `/en${currentPath === '/' ? '' : currentPath}` : currentPath.replace(/^\/en/, '') || '/';
 ---
 
 <header class="relative z-10 mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-6">
-   <a href="/" class="flex items-center gap-3 group" style="text-decoration: none;">
+   <a href={t.lang === 'en' ? '/en' : '/'} class="flex items-center gap-3 group" style="text-decoration: none;">
 	   <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-[rgba(10,61,154,0.35)] ring-1 ring-[rgba(44,166,255,0.35)]">
 		   <Image
 			   src={logoImage}
@@ -35,11 +48,20 @@ const { navLinks = defaultNavLinks } = Astro.props as { navLinks?: NavLink[] };
 		   <p class="text-lg font-semibold">EAnathos</p>
 	   </div>
    </a>
-	   <nav class="hidden items-center gap-8 text-sm font-medium text-[color:var(--ink-1)] md:flex">
+   <div class="hidden items-center gap-8 md:flex">
+	   <nav class="flex items-center gap-8 text-sm font-medium text-[color:var(--ink-1)]">
 		   {navLinks.map((link) => (
 			   <a class="transition hover:text-[color:var(--ink-0)]" href={link.href}>
 				   {link.label}
 			   </a>
 		   ))}
 	   </nav>
+	   <a
+		   href={otherLangHref}
+		   class="flex h-8 w-12 items-center justify-center rounded-full border border-[rgba(44,166,255,0.35)] text-xs font-semibold text-[color:var(--ink-1)] transition hover:border-[rgba(44,166,255,0.7)] hover:text-[color:var(--ink-0)]"
+		   aria-label={`Switch to ${otherLang === 'en' ? 'English' : 'Français'}`}
+	   >
+		   {otherLangLabel}
+	   </a>
+   </div>
 </header>

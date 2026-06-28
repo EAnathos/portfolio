@@ -149,3 +149,28 @@ export const photoGear: PhotoGearItem[] = [
 		iconSvg: photoGearFlashIcon
 	}
 ];
+
+export function getLocalizedSkillGroups(
+	groupLabels: Record<'languages' | 'web' | 'databases' | 'testing' | 'tools', string>
+): SkillGroup[] {
+	const keys: Array<keyof typeof groupLabels> = ['languages', 'web', 'databases', 'testing', 'tools'];
+	return skillGroups.map((group, i) => ({ ...group, title: groupLabels[keys[i]] }));
+}
+
+export function getLocalizedGear(labels: { body: string; lens: string; flash: string }): PhotoGearItem[] {
+	return [
+		{ ...photoGear[0], label: labels.body },
+		{ ...photoGear[1], label: labels.lens },
+		{ ...photoGear[2], label: labels.flash },
+	];
+}
+
+export function getLocalizedProjects(
+	descriptions: Record<'contribot' | 'antid' | 'babyfoot', string>
+): Project[] {
+	return [
+		{ ...projects[0], description: descriptions.contribot },
+		{ ...projects[1], description: descriptions.antid },
+		{ ...projects[2], description: descriptions.babyfoot },
+	];
+}
