@@ -17,6 +17,11 @@ const { project } = Astro.props as { project: Project };
 			class="h-32 w-full rounded-2xl border border-[rgba(44,166,255,0.25)] bg-[rgba(7,20,46,0.9)] object-contain p-4"
 			loading="lazy"
 		/>
+	) : project.imageSvg ? (
+		<div class="flex h-32 items-center justify-center rounded-2xl border border-[rgba(44,166,255,0.25)] bg-[rgba(7,20,46,0.9)] p-4">
+			<span class="inline-flex h-20 w-20" aria-hidden="true" set:html={project.imageSvg}></span>
+			<span class="sr-only">Logo {project.title}</span>
+		</div>
 	) : project.emoji ? (
 		<div class="flex h-32 items-center justify-center rounded-2xl border border-dashed border-[rgba(44,166,255,0.35)] bg-[rgba(7,20,46,0.9)] text-4xl">
 			<span aria-hidden="true">{project.emoji}</span>

@@ -2,6 +2,7 @@ import type { ImageMetadata } from 'astro';
 import contribotImage from '../assets/projects/contribot.png';
 import babyfootImage from '../assets/projects/babyfoot-lottery.png';
 import robotFrameworkIcon from '../assets/icons/robot-framework.svg?raw';
+import antIdTrainingLogo from '../assets/projects/ant-id-training.svg?raw';
 import photoGearBodyIcon from '../assets/icons/photo-gear-body.svg?raw';
 import photoGearLensIcon from '../assets/icons/photo-gear-lens.svg?raw';
 import photoGearFlashIcon from '../assets/icons/photo-gear-flash.svg?raw';
@@ -27,6 +28,7 @@ export type Project = {
 	title: string;
 	description: string;
 	image?: ImageMetadata;
+	imageSvg?: string;
 	emoji?: string;
 	links?: ProjectLink[];
 	tags: string[];
@@ -109,12 +111,12 @@ export const projects: Project[] = [
 		title: 'Ant-ID Training',
 		description:
 			"Plateforme d entrainement pour identifier les especes de fourmis, avec parcours progressifs.",
-		emoji: '🐜',
+		imageSvg: antIdTrainingLogo,
 		links: [
 			{ type: 'web', url: 'https://ant-id-training.anathos.me/' },
-			{ type: 'github', url: 'https://github.com/EAnathos/ant-id-training' }
+			{ type: 'github', url: 'https://github.com/EAnathos/antIdTraining' }
 		],
-		tags: ['Astro', 'TypeScript', 'Tailwind CSS']
+		tags: ['React', 'Express', 'Prisma', 'TypeScript']
 	},
 	{
 		title: 'BabyFoot Lottery',
