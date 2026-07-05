@@ -1,6 +1,7 @@
 import type { ImageMetadata } from 'astro';
 import contribotImage from '../assets/projects/contribot.png';
 import robotFrameworkIcon from '../assets/icons/robot-framework.svg?raw';
+import claudeIcon from '../assets/icons/claude.svg?raw';
 import antIdTrainingLogo from '../assets/projects/ant-id-training.svg?raw';
 import puzzleMultiplayerLogo from '../assets/projects/puzzle-multiplayer.svg?raw';
 import photoGearBodyIcon from '../assets/icons/photo-gear-body.svg?raw';
@@ -31,7 +32,7 @@ export type Project = {
 	imageSvg?: string;
 	emoji?: string;
 	links?: ProjectLink[];
-	tags: string[];
+	tags: SkillItem[];
 };
 
 export type PhotoGearItem = {
@@ -93,7 +94,8 @@ export const skillGroups: SkillGroup[] = [
 			{ name: 'Figma', icon: 'devicon-figma-plain', url: 'https://www.figma.com/' },
 			{ name: 'Notion', icon: 'devicon-notion-plain', url: 'https://www.notion.so/' },
 			{ name: 'Obsidian', icon: 'devicon-markdown-original', url: 'https://obsidian.md/' },
-			{ name: 'Termius', icon: 'devicon-ssh-plain', url: 'https://termius.com/' }
+			{ name: 'Termius', icon: 'devicon-ssh-plain', url: 'https://termius.com/' },
+			{ name: 'Claude', iconSvg: claudeIcon, url: 'https://claude.ai/' }
 		]
 	}
 ];
@@ -105,7 +107,11 @@ export const projects: Project[] = [
 			'Bot Discord pour animer une communaute, avec systeme de recompenses et tableau de bord admin.',
 		image: contribotImage,
 		links: [{ type: 'github', url: 'https://github.com/ContriBot-Discord' }],
-		tags: ['Node.js', 'Discord.js', 'MongoDB']
+		tags: [
+			{ name: 'Node.js', icon: 'devicon-nodejs-plain' },
+			{ name: 'Discord.js' },
+			{ name: 'MongoDB', icon: 'devicon-mongodb-plain' }
+		]
 	},
 	{
 		title: 'Ant-ID Training',
@@ -116,7 +122,13 @@ export const projects: Project[] = [
 			{ type: 'web', url: 'https://ant-id-training.anathos.me/' },
 			{ type: 'github', url: 'https://github.com/EAnathos/antIdTraining' }
 		],
-		tags: ['React', 'Express', 'Prisma', 'TypeScript']
+		tags: [
+			{ name: 'React', icon: 'devicon-react-original' },
+			{ name: 'Node.js', icon: 'devicon-nodejs-plain' },
+			{ name: 'Express', icon: 'devicon-express-original' },
+			{ name: 'Prisma', icon: 'devicon-prisma-plain' },
+			{ name: 'TypeScript', icon: 'devicon-typescript-plain' }
+		]
 	},
 	{
 		title: 'Puzzle Multiplayer',
@@ -127,7 +139,12 @@ export const projects: Project[] = [
 			{ type: 'web', url: 'https://puzzle-multiplayer.anathos.me/' },
 			{ type: 'github', url: 'https://github.com/EAnathos/puzzle-multiplayer' }
 		],
-		tags: ['React', 'TypeScript', 'Socket.IO', 'Node.js']
+		tags: [
+			{ name: 'React', icon: 'devicon-react-original' },
+			{ name: 'TypeScript', icon: 'devicon-typescript-plain' },
+			{ name: 'Socket.IO', icon: 'devicon-socketio-original' },
+			{ name: 'Node.js', icon: 'devicon-nodejs-plain' }
+		]
 	}
 ];
 
