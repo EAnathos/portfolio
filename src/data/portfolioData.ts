@@ -124,6 +124,7 @@ export const projects: Project[] = [
 			'Puzzle collaboratif multijoueur en temps reel : on rejoint une partie avec un code, sans compte, et on assemble les pieces ensemble.',
 		imageSvg: puzzleMultiplayerLogo,
 		links: [
+			{ type: 'web', url: 'https://puzzle-multiplayer.anathos.me/' },
 			{ type: 'github', url: 'https://github.com/EAnathos/puzzle-multiplayer' }
 		],
 		tags: ['React', 'TypeScript', 'Socket.IO', 'Node.js']
