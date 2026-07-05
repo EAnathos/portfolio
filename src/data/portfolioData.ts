@@ -1,8 +1,8 @@
 import type { ImageMetadata } from 'astro';
 import contribotImage from '../assets/projects/contribot.png';
-import babyfootImage from '../assets/projects/babyfoot-lottery.png';
 import robotFrameworkIcon from '../assets/icons/robot-framework.svg?raw';
 import antIdTrainingLogo from '../assets/projects/ant-id-training.svg?raw';
+import puzzleMultiplayerLogo from '../assets/projects/puzzle-multiplayer.svg?raw';
 import photoGearBodyIcon from '../assets/icons/photo-gear-body.svg?raw';
 import photoGearLensIcon from '../assets/icons/photo-gear-lens.svg?raw';
 import photoGearFlashIcon from '../assets/icons/photo-gear-flash.svg?raw';
@@ -119,15 +119,14 @@ export const projects: Project[] = [
 		tags: ['React', 'Express', 'Prisma', 'TypeScript']
 	},
 	{
-		title: 'BabyFoot Lottery',
+		title: 'Puzzle Multiplayer',
 		description:
-			'Une roulette interactive qui ajoute des effets surprises a chaque tour pour pimenter les parties de babyfoot.',
-		image: babyfootImage,
+			'Puzzle collaboratif multijoueur en temps reel : on rejoint une partie avec un code, sans compte, et on assemble les pieces ensemble.',
+		imageSvg: puzzleMultiplayerLogo,
 		links: [
-			{ type: 'web', url: 'https://babyfoot-lottery.anathos.me/' },
-			{ type: 'github', url: 'https://github.com/EAnathos/BabyFoot-Lottery' }
+			{ type: 'github', url: 'https://github.com/EAnathos/puzzle-multiplayer' }
 		],
-		tags: ['JavaScript', 'HTML', 'CSS']
+		tags: ['React', 'TypeScript', 'Socket.IO', 'Node.js']
 	}
 ];
 
@@ -168,11 +167,11 @@ export function getLocalizedGear(labels: { body: string; lens: string; flash: st
 }
 
 export function getLocalizedProjects(
-	descriptions: Record<'contribot' | 'antid' | 'babyfoot', string>
+	descriptions: Record<'contribot' | 'antid' | 'puzzle', string>
 ): Project[] {
 	return [
 		{ ...projects[0], description: descriptions.contribot },
 		{ ...projects[1], description: descriptions.antid },
-		{ ...projects[2], description: descriptions.babyfoot },
+		{ ...projects[2], description: descriptions.puzzle },
 	];
 }

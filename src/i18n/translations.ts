@@ -47,8 +47,8 @@ export const translations = {
 					'Bot Discord pour animer une communauté, avec système de récompenses et tableau de bord admin.',
 				antid:
 					"Plateforme d'entraînement pour identifier les espèces de fourmis, avec parcours progressifs.",
-				babyfoot:
-					'Une roulette interactive qui ajoute des effets surprises à chaque tour pour pimenter les parties de babyfoot.',
+				puzzle:
+					'Puzzle collaboratif multijoueur en temps réel : on rejoint une partie avec un code, sans compte, et on assemble les pièces ensemble.',
 			},
 		},
 		photo: {
@@ -147,8 +147,8 @@ export const translations = {
 				contribot:
 					'Discord bot to engage a community, with a rewards system and an admin dashboard.',
 				antid: 'Training platform to identify ant species, with progressive learning paths.',
-				babyfoot:
-					'An interactive roulette that adds surprise effects to each round to spice up foosball games.',
+				puzzle:
+					'A real-time collaborative multiplayer puzzle: join a game with a code, no account needed, and assemble the pieces together.',
 			},
 		},
 		photo: {
