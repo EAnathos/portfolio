@@ -1,0 +1,80 @@
+---
+import { Image } from 'astro:assets';
+import type { PhotographyItem } from '../../data/photography';
+import type { Translations } from '../../i18n/translations';
+
+interface Props {
+	item: PhotographyItem;
+	t: Translations;
+}
+
+const { item, t } = Astro.props as Props;
+const tp = t.photography_page;
+---
+
+<div class="photo-hero-outer" data-photo-hero-outer>
+<section class="photo-hero" data-photo-hero aria-label={tp.hero_tagline}>
+	<Image
+		src={item.image}
+		alt={item.alt}
+		width={2000}
+		height={Math.round(2000 / item.aspectRatio)}
+		class="photo-hero__img"
+		loading="eager"
+		fetchpriority="high"
+	/>
+	<div class="photo-hero__scrim"></div>
+
+	<div class="photo-hero__content">
+		<p class="p-eyebrow mb-4">{tp.label}</p>
+		<h1 class="photo-hero__title p-display">{tp.hero_tagline}</h1>
+		<p class="mx-auto mt-5 max-w-xl text-[color:var(--p-ink-1)]">{tp.hero_sub}</p>
+	</div>
+
+	<div class="photo-hero__depth" aria-hidden="true">
+		<div class="photo-hero__depth-track">
+			<div class="photo-hero__depth-fill"></div>
+		</div>
+		<span class="photo-hero__depth-label">{tp.hero_depth_label}</span>
+	</div>
+
+	<p class="photo-hero__cue">{tp.hero_cue}</p>
+</section>
+</div>
+
+<script>
+	const outer = document.querySelector('[data-photo-hero-outer]') as HTMLElement | null;
+	const hero = document.querySelector('[data-photo-hero]') as HTMLElement | null;
+	const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+	if (outer && hero && !reduce) {
+		let ticking = false;
+
+		const update = () => {
+			ticking = false;
+			const rect = outer.getBoundingClientRect();
+			// The hero is pinned (sticky) while the taller outer wrapper scrolls
+			// past. `travel` is how far we scroll while pinned; focus tracks that
+			// progress, so the page can only advance once the image is sharp.
+			const travel = rect.height - window.innerHeight;
+			const progress = travel > 0 ? Math.min(Math.max(-rect.top / travel, 0), 1) : 1;
+			// Reach full focus a little before the pin releases, so the sharp
+			// image is held for a beat before the content below scrolls in.
+			const focus = Math.min(progress / 0.82, 1);
+			hero.style.setProperty('--focus', focus.toFixed(3));
+		};
+
+		const onScroll = () => {
+			if (!ticking) {
+				window.requestAnimationFrame(update);
+				ticking = true;
+			}
+		};
+
+		window.addEventListener('scroll', onScroll, { passive: true });
+		window.addEventListener('resize', onScroll, { passive: true });
+		update();
+	} else if (hero) {
+		hero.style.setProperty('--focus', '1');
+	}
+</script>

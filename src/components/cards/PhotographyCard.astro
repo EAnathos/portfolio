@@ -1,62 +1,156 @@
 ---
 import { Image } from 'astro:assets';
-import type { PhotographyItem } from '../../data/photography';
+import { localize, type PhotographyItem } from '../../data/photography';
+import type { Translations } from '../../i18n/translations';
 
-const { item } = Astro.props as { item: PhotographyItem };
+interface Props {
+	item: PhotographyItem;
+	t: Translations;
+}
+
+const { item, t } = Astro.props as Props;
+const tp = t.photography_page;
+const meta = item.meta;
+
+// Resolve per-language metadata for the active locale.
+const common = localize(meta.common, t.lang);
+const location = localize(meta.location, t.lang);
+const biology = localize(meta.biology, t.lang);
+
+// Content-aware card width: give landscape shots a touch more presence.
+const cardWidth = item.aspectRatio >= 1.3 ? 1000 : 820;
+const cardHeight = Math.round(cardWidth / item.aspectRatio);
+
+const links = [
+	{ href: meta.inaturalist, label: 'iNaturalist' },
+	{ href: meta.instagram, label: 'Instagram' },
+	{ href: meta.reference, label: t.lang === 'fr' ? 'Référence' : 'Reference' }
+].filter((link): link is { href: string; label: string } => Boolean(link.href));
+
+const fields = [
+	{ label: tp.field_authority, value: meta.authority },
+	{ label: tp.field_common, value: common },
+	{ label: tp.field_location, value: location }
+].filter((field): field is { label: string; value: string } => Boolean(field.value));
+
+const hasMeta = fields.length > 0 || links.length > 0 || Boolean(biology);
 ---
 
-<article class="group overflow-hidden rounded-3xl border border-[rgba(44,166,255,0.18)] bg-[rgba(6,15,36,0.78)] shadow-[0_24px_80px_rgba(3,8,23,0.28)] transition duration-300 hover:-translate-y-1 hover:border-[rgba(44,166,255,0.38)]">
+<article class="photo-card p-reveal" style={`--reveal-d:${(item.index % 8) * 70}ms`}>
 	<button
 		type="button"
-		class="relative block w-full overflow-hidden text-left"
+		class="photo-card__inner"
 		data-open-photo={item.dialogId}
 		data-photo-collection={item.collection}
 		data-photo-index={item.index}
+		data-tilt
 		aria-haspopup="dialog"
 		aria-controls={item.dialogId}
-		aria-label={`Ouvrir la photographie ${item.title}`}
+		aria-label={`${item.title} — ${tp.view_details}`}
 	>
 		<Image
 			src={item.image}
 			alt={item.alt}
-			width={1200}
-			height={900}
-			class="h-72 w-full object-cover object-center transition duration-500 group-hover:scale-[1.03]"
+			width={cardWidth}
+			height={cardHeight}
+			class="photo-card__img"
 			loading="lazy"
 		/>
-		<div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[rgba(4,10,26,0.9)] to-transparent px-4 pb-4 pt-12">
-			<p class="text-lg font-semibold text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">{item.title}</p>
+		<div class="photo-card__caption">
+			<p class="photo-card__taxon p-taxon">{item.title}</p>
+			{common && <p class="photo-card__meta">{common}</p>}
+			{!common && location && <p class="photo-card__meta">{location}</p>}
 		</div>
-		<span class="sr-only">Cliquer pour ouvrir en grand</span>
 	</button>
 
 	<dialog
 		id={item.dialogId}
+		class="photo-dialog"
 		data-photo-dialog
 		data-photo-collection={item.collection}
 		data-photo-index={item.index}
-		class="m-auto w-[min(92vw,72rem)] rounded-3xl border border-[rgba(44,166,255,0.25)] bg-[rgba(6,12,34,0.96)] p-0 text-[color:var(--ink-0)] shadow-[0_40px_140px_rgba(3,8,23,0.7)]"
+		aria-label={item.title}
 	>
-		<div class="flex items-center justify-between border-b border-[rgba(44,166,255,0.2)] px-5 py-4">
-			<p class="text-sm font-semibold text-white">{item.title}</p>
-			<form method="dialog">
+		<div class="photo-dialog__grid">
+			<div class="photo-dialog__stage">
 				<button
-					type="submit"
-					class="rounded-full border border-[rgba(44,166,255,0.35)] px-3 py-1 text-xs font-semibold text-[color:var(--ink-0)] transition hover:border-[rgba(44,166,255,0.7)]"
+					type="button"
+					class="photo-dialog__nav photo-dialog__nav--prev"
+					data-photo-prev
+					aria-label={tp.lightbox_prev}
 				>
-					Fermer
+					<svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
 				</button>
-			</form>
-		</div>
-		<div class="flex items-center justify-center p-5">
-			<Image
-				src={item.image}
-				alt={item.alt}
-				width={1800}
-				height={1400}
-				class="max-h-[80vh] w-auto max-w-full rounded-2xl border border-[rgba(44,166,255,0.2)] object-contain"
-				loading="lazy"
-			/>
+				<Image
+					src={item.image}
+					alt={item.alt}
+					width={1800}
+					height={Math.round(1800 / item.aspectRatio)}
+					class="photo-dialog__img"
+					loading="lazy"
+				/>
+				<button
+					type="button"
+					class="photo-dialog__nav photo-dialog__nav--next"
+					data-photo-next
+					aria-label={tp.lightbox_next}
+				>
+					<svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+				</button>
+			</div>
+
+			<div class="photo-dialog__panel">
+				<div class="flex items-start justify-between gap-4">
+					<div>
+						<p class="p-label">{tp.specimen_label}</p>
+						<h3 class="p-taxon mt-1 text-2xl text-[color:var(--p-ink-0)]">{item.title}</h3>
+					</div>
+					<form method="dialog">
+						<button
+							type="submit"
+							class="photo-dialog__nav"
+							style="position: static; transform: none;"
+							aria-label={t.photo.close}
+						>
+							<svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+						</button>
+					</form>
+				</div>
+
+				{fields.length > 0 && (
+					<dl class="grid grid-cols-1 gap-3">
+						{fields.map((field) => (
+							<div class="photo-field">
+								<dt>{field.label}</dt>
+								<dd>{field.value}</dd>
+							</div>
+						))}
+					</dl>
+				)}
+
+				{biology && (
+					<div>
+						<p class="p-label mb-2">{tp.field_biology}</p>
+						<p class="text-sm leading-relaxed text-[color:var(--p-ink-1)]">{biology}</p>
+					</div>
+				)}
+
+				{links.length > 0 && (
+					<div>
+						<p class="p-label mb-2">{tp.field_links}</p>
+						<div class="flex flex-wrap gap-2">
+							{links.map((link) => (
+								<a class="photo-chip" href={link.href} target="_blank" rel="noreferrer">
+									{link.label}
+									<svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 17L17 7M17 7H8M17 7v9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+								</a>
+							))}
+						</div>
+					</div>
+				)}
+
+				{!hasMeta && <p class="text-sm text-[color:var(--p-ink-2)]">{tp.no_meta}</p>}
+			</div>
 		</div>
 	</dialog>
 </article>
