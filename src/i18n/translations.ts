@@ -49,6 +49,8 @@ export const translations = {
 					"Plateforme d'entraînement pour identifier les espèces de fourmis, avec parcours progressifs.",
 				puzzle:
 					'Puzzle collaboratif multijoueur en temps réel : on rejoint une partie avec un code, sans compte, et on assemble les pièces ensemble.',
+				seleniumScreenshot:
+					"Outil de régression visuelle : compare le rendu d'un site entre deux versions de Firefox via des scénarios de navigation Selenium.",
 			},
 		},
 		photo: {
@@ -170,6 +172,8 @@ export const translations = {
 				antid: 'Training platform to identify ant species, with progressive learning paths.',
 				puzzle:
 					'A real-time collaborative multiplayer puzzle: join a game with a code, no account needed, and assemble the pieces together.',
+				seleniumScreenshot:
+					"Visual regression tool: compares a website's rendering between two Firefox versions through Selenium navigation scenarios.",
 			},
 		},
 		photo: {

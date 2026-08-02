@@ -4,6 +4,7 @@ import robotFrameworkIcon from '../assets/icons/robot-framework.svg?raw';
 import claudeIcon from '../assets/icons/claude.svg?raw';
 import antIdTrainingLogo from '../assets/projects/ant-id-training.svg?raw';
 import puzzleMultiplayerLogo from '../assets/projects/puzzle-multiplayer.svg?raw';
+import seleniumScreenshotLogo from '../assets/projects/selenium-screenshot-compare.svg?raw';
 import photoGearBodyIcon from '../assets/icons/photo-gear-body.svg?raw';
 import photoGearLensIcon from '../assets/icons/photo-gear-lens.svg?raw';
 import photoGearFlashIcon from '../assets/icons/photo-gear-flash.svg?raw';
@@ -102,18 +103,6 @@ export const skillGroups: SkillGroup[] = [
 
 export const projects: Project[] = [
 	{
-		title: 'ContriBot',
-		description:
-			'Bot Discord pour animer une communaute, avec systeme de recompenses et tableau de bord admin.',
-		image: contribotImage,
-		links: [{ type: 'github', url: 'https://github.com/ContriBot-Discord' }],
-		tags: [
-			{ name: 'Node.js', icon: 'devicon-nodejs-plain' },
-			{ name: 'Discord.js' },
-			{ name: 'MongoDB', icon: 'devicon-mongodb-plain' }
-		]
-	},
-	{
 		title: 'Ant-ID Training',
 		description:
 			"Plateforme d entrainement pour identifier les especes de fourmis, avec parcours progressifs.",
@@ -144,6 +133,33 @@ export const projects: Project[] = [
 			{ name: 'TypeScript', icon: 'devicon-typescript-plain' },
 			{ name: 'Socket.IO', icon: 'devicon-socketio-original' },
 			{ name: 'Node.js', icon: 'devicon-nodejs-plain' }
+		]
+	},
+	{
+		title: 'Selenium Screenshot Compare',
+		description:
+			"Outil de regression visuelle : compare le rendu d'un site entre deux versions de Firefox via des scenarios de navigation Selenium.",
+		imageSvg: seleniumScreenshotLogo,
+		links: [
+			{ type: 'web', url: 'https://pypi.org/project/selenium-screenshot-compare/' },
+			{ type: 'github', url: 'https://github.com/EAnathos/selenium-screenshot-compare' }
+		],
+		tags: [
+			{ name: 'Python', icon: 'devicon-python-plain' },
+			{ name: 'Selenium', icon: 'devicon-selenium-original' },
+			{ name: 'Robot Framework', iconSvg: robotFrameworkIcon }
+		]
+	},
+	{
+		title: 'ContriBot',
+		description:
+			'Bot Discord pour animer une communaute, avec systeme de recompenses et tableau de bord admin.',
+		image: contribotImage,
+		links: [{ type: 'github', url: 'https://github.com/ContriBot-Discord' }],
+		tags: [
+			{ name: 'Node.js', icon: 'devicon-nodejs-plain' },
+			{ name: 'Discord.js' },
+			{ name: 'MongoDB', icon: 'devicon-mongodb-plain' }
 		]
 	}
 ];
@@ -185,11 +201,12 @@ export function getLocalizedGear(labels: { body: string; lens: string; flash: st
 }
 
 export function getLocalizedProjects(
-	descriptions: Record<'contribot' | 'antid' | 'puzzle', string>
+	descriptions: Record<'antid' | 'puzzle' | 'seleniumScreenshot' | 'contribot', string>
 ): Project[] {
 	return [
-		{ ...projects[0], description: descriptions.contribot },
-		{ ...projects[1], description: descriptions.antid },
-		{ ...projects[2], description: descriptions.puzzle },
+		{ ...projects[0], description: descriptions.antid },
+		{ ...projects[1], description: descriptions.puzzle },
+		{ ...projects[2], description: descriptions.seleniumScreenshot },
+		{ ...projects[3], description: descriptions.contribot },
 	];
 }
