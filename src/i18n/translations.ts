@@ -51,6 +51,8 @@ export const translations = {
 					'Puzzle collaboratif multijoueur en temps réel : on rejoint une partie avec un code, sans compte, et on assemble les pièces ensemble.',
 				seleniumScreenshot:
 					"Outil de régression visuelle : compare le rendu d'un site entre deux versions de Firefox via des scénarios de navigation Selenium.",
+				scholarWatcher:
+					'Bot Discord de veille bibliographique automatisée : surveille Google Scholar et AntCat pour notifier les nouvelles publications.',
 			},
 		},
 		photo: {
@@ -174,6 +176,8 @@ export const translations = {
 					'A real-time collaborative multiplayer puzzle: join a game with a code, no account needed, and assemble the pieces together.',
 				seleniumScreenshot:
 					"Visual regression tool: compares a website's rendering between two Firefox versions through Selenium navigation scenarios.",
+				scholarWatcher:
+					'Automated bibliographic monitoring Discord bot: watches Google Scholar & AntCat for new publications and sends notifications.',
 			},
 		},
 		photo: {

@@ -5,6 +5,7 @@ import claudeIcon from '../assets/icons/claude.svg?raw';
 import antIdTrainingLogo from '../assets/projects/ant-id-training.svg?raw';
 import puzzleMultiplayerLogo from '../assets/projects/puzzle-multiplayer.svg?raw';
 import seleniumScreenshotLogo from '../assets/projects/selenium-screenshot-compare.svg?raw';
+import scholarWatcherLogo from '../assets/projects/scholar-watcher.svg?raw';
 import photoGearBodyIcon from '../assets/icons/photo-gear-body.svg?raw';
 import photoGearLensIcon from '../assets/icons/photo-gear-lens.svg?raw';
 import photoGearFlashIcon from '../assets/icons/photo-gear-flash.svg?raw';
@@ -69,7 +70,8 @@ export const skillGroups: SkillGroup[] = [
 			{ name: 'MySQL', icon: 'devicon-mysql-plain', url: 'https://www.mysql.com/' },
 			{ name: 'PostgreSQL', icon: 'devicon-postgresql-plain', url: 'https://www.postgresql.org/' },
 			{ name: 'MongoDB', icon: 'devicon-mongodb-plain', url: 'https://www.mongodb.com/' },
-			{ name: 'Prisma', icon: 'devicon-prisma-plain', url: 'https://www.prisma.io/' }
+			{ name: 'Prisma', icon: 'devicon-prisma-plain', url: 'https://www.prisma.io/' },
+			{ name: 'Drizzle', icon: 'devicon-drizzle-plain', url: 'https://orm.drizzle.team/' }
 		]
 	},
 	{
@@ -151,6 +153,19 @@ export const projects: Project[] = [
 		]
 	},
 	{
+		title: 'Scholar Watcher',
+		description:
+			'Bot Discord de veille bibliographique automatisee : surveille Google Scholar et AntCat pour notifier les nouvelles publications.',
+		imageSvg: scholarWatcherLogo,
+		links: [{ type: 'github', url: 'https://github.com/EAnathos/scholarWatcherForDiscord' }],
+		tags: [
+			{ name: 'TypeScript', icon: 'devicon-typescript-plain' },
+			{ name: 'Discord.js' },
+			{ name: 'Prisma', icon: 'devicon-prisma-plain' },
+			{ name: 'Docker', icon: 'devicon-docker-plain' }
+		]
+	},
+	{
 		title: 'ContriBot',
 		description:
 			'Bot Discord pour animer une communaute, avec systeme de recompenses et tableau de bord admin.',
@@ -201,12 +216,13 @@ export function getLocalizedGear(labels: { body: string; lens: string; flash: st
 }
 
 export function getLocalizedProjects(
-	descriptions: Record<'antid' | 'puzzle' | 'seleniumScreenshot' | 'contribot', string>
+	descriptions: Record<'antid' | 'puzzle' | 'seleniumScreenshot' | 'scholarWatcher' | 'contribot', string>
 ): Project[] {
 	return [
 		{ ...projects[0], description: descriptions.antid },
 		{ ...projects[1], description: descriptions.puzzle },
 		{ ...projects[2], description: descriptions.seleniumScreenshot },
-		{ ...projects[3], description: descriptions.contribot },
+		{ ...projects[3], description: descriptions.scholarWatcher },
+		{ ...projects[4], description: descriptions.contribot },
 	];
 }
