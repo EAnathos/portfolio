@@ -1,0 +1,117 @@
+---
+import { Image } from 'astro:assets';
+import type { Project } from '../../data/portfolioData';
+import type { Translations } from '../../i18n/translations';
+import scholarAvatar from '../../assets/projects/scholar-watcher.svg?raw';
+import contribotAvatar from '../../assets/projects/contribot.png';
+
+interface Props {
+	project: Project;
+	featured?: boolean;
+	t: Translations;
+}
+
+const { project, featured = false, t } = Astro.props as Props;
+const preview = project.preview;
+const m = t.projects.mocks;
+---
+
+{preview?.kind === 'screenshot' && (
+	<div class="pv pv--browser">
+		<div class="pv__bar" aria-hidden="true">
+			<span class="pv__dots"><i></i><i></i><i></i></span>
+			<span class="pv__url">
+				<svg width="10" height="10" viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="10" rx="2" stroke="currentColor" stroke-width="2.4" /><path d="M8 11V8a4 4 0 0 1 8 0v3" stroke="currentColor" stroke-width="2.4" /></svg>
+				{preview.url}
+			</span>
+		</div>
+		<div class="pv__viewport">
+			<Image
+				src={preview.image}
+				alt={`${m.capture} ${project.title}`}
+				width={featured ? 1200 : 760}
+				class:list={['pv__shot', preview.image.height / preview.image.width > 0.7 && 'pv__shot--tall']}
+				loading="lazy"
+			/>
+		</div>
+	</div>
+)}
+
+{preview?.kind === 'compare' && (
+	<div class="pv pv--compare" role="img" aria-label={m.compare_sr}>
+		<div class="pv__bar" aria-hidden="true">
+			<span class="pv__dots"><i></i><i></i><i></i></span>
+			<span class="pv__url pv__url--mono">regression.diff</span>
+		</div>
+		<div class="pv__viewport pv-cmp" aria-hidden="true">
+			{['before', 'after'].map((side) => (
+				<div class={`pv-cmp__page pv-cmp__page--${side}`}>
+					<div class="pv-cmp__nav"><b></b><span></span><span></span><span></span></div>
+					<div class="pv-cmp__hero"><b></b><span></span><em></em></div>
+					<div class="pv-cmp__cards"><i></i><i></i><i></i></div>
+				</div>
+			))}
+			<span class="pv-cmp__diff pv-cmp__diff--a"></span>
+			<span class="pv-cmp__diff pv-cmp__diff--b"></span>
+			<span class="pv-cmp__handle"></span>
+			<span class="pv-cmp__tag pv-cmp__tag--l">Firefox 115</span>
+			<span class="pv-cmp__tag pv-cmp__tag--r">Firefox 128</span>
+			<span class="pv-cmp__badge">2 diffs · 0.8%</span>
+		</div>
+	</div>
+)}
+
+{preview?.kind === 'discord' && (
+	<div class="pv pv--discord" role="img" aria-label={preview.variant === 'scholar' ? m.scholar_sr : m.contribot_sr}>
+		<div class="pv__bar pv__bar--discord" aria-hidden="true">
+			<span class="pv-dc__hash">#</span>
+			<span>{preview.variant === 'scholar' ? m.scholar_channel : m.contribot_channel}</span>
+		</div>
+		<div class="pv__viewport pv-dc" aria-hidden="true">
+			{preview.variant === 'contribot' && (
+				<div class="pv-dc__msg pv-dc__msg--user" style="--i:0">
+					<span class="pv-dc__avatar pv-dc__avatar--user"></span>
+					<div>
+						<p class="pv-dc__name">EAnathos</p>
+						<p class="pv-dc__cmd"><span>/daily</span></p>
+					</div>
+				</div>
+			)}
+			<div class="pv-dc__msg" style={`--i:${preview.variant === 'contribot' ? 1 : 0}`}>
+				{preview.variant === 'scholar' ? (
+					<span class="pv-dc__avatar pv-dc__avatar--svg" set:html={scholarAvatar}></span>
+				) : (
+					<Image src={contribotAvatar} alt="" width={64} height={64} class="pv-dc__avatar" />
+				)}
+				<div class="min-w-0 flex-1">
+					<p class="pv-dc__name">
+						{preview.variant === 'scholar' ? 'Scholar Watcher' : 'ContriBot'}
+						<span class="pv-dc__app">APP</span>
+					</p>
+					{preview.variant === 'scholar' ? (
+						<div class="pv-dc__embed" style="--bar:#4f8cff">
+							<p class="pv-dc__embed-title">📚 {m.scholar_title}</p>
+							<span class="pv-dc__line" style="width:92%"></span>
+							<span class="pv-dc__line" style="width:70%"></span>
+							<div class="pv-dc__fields">
+								<div><p>{m.scholar_source}</p><span>Google Scholar</span></div>
+								<div><p>{m.scholar_watch}</p><span>AntCat</span></div>
+							</div>
+						</div>
+					) : (
+						<div class="pv-dc__embed" style="--bar:#f0b232">
+							<p class="pv-dc__embed-title">🎁 {m.contribot_title}</p>
+							<p class="pv-dc__points">+50 <span>pts</span></p>
+							<div class="pv-dc__progress"><span></span></div>
+							<p class="pv-dc__hint">{m.contribot_streak}</p>
+						</div>
+					)}
+				</div>
+			</div>
+			<div class="pv-dc__typing" style={`--i:${preview.variant === 'contribot' ? 2 : 1}`}>
+				<span class="pv-dc__dots"><i></i><i></i><i></i></span>
+				{preview.variant === 'scholar' ? m.scholar_typing : m.contribot_typing}
+			</div>
+		</div>
+	</div>
+)}

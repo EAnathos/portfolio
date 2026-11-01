@@ -140,6 +140,11 @@
 	.photo-masonry {
 		columns: 3;
 	}
+
+	/* Small collections: two columns so the grid still spans the full width. */
+	.photo-masonry--compact {
+		columns: 2;
+	}
 }
 
 .photo-card {

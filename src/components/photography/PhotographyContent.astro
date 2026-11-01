@@ -72,7 +72,7 @@ const collectionMeta: Record<string, { title: string; desc: string }> = {
 						{collectionMeta[collection.id].desc}
 					</p>
 				</div>
-				<div class="photo-masonry">
+				<div class:list={['photo-masonry', collection.items.length <= 4 && 'photo-masonry--compact']}>
 					{collection.items.map((item) => (
 						<PhotographyCard item={item} {t} />
 					))}

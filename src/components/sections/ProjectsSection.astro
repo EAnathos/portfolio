@@ -4,16 +4,131 @@ import type { Translations } from '../../i18n/translations';
 import ProjectCard from '../cards/ProjectCard.astro';
 
 const { projects, t } = Astro.props as { projects: Project[]; t: Translations };
+
+// Filters: only the technologies shared by at least two projects, most used first.
+const tagCounts = new Map<string, number>();
+for (const project of projects) {
+	for (const tag of project.tags) {
+		tagCounts.set(tag.name, (tagCounts.get(tag.name) ?? 0) + 1);
+	}
+}
+const filters = [...tagCounts.entries()]
+	.filter(([, count]) => count >= 2)
+	.sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+
+// Bento layout: a full-width featured card, a row of three, then a row of two.
+const layout = [
+	'md:col-span-6',
+	'md:col-span-3 lg:col-span-2',
+	'md:col-span-3 lg:col-span-2',
+	'md:col-span-3 lg:col-span-2',
+	'md:col-span-3',
+	'md:col-span-6 lg:col-span-3'
+];
 ---
 
-<section id="projets" class="relative z-10 mx-auto w-full max-w-6xl px-6 pb-20">
-	<div class="fade-up">
-		<p class="text-xs uppercase tracking-[0.35em] text-[color:var(--ink-2)]">{t.projects.label}</p>
-		<h2 class="mt-3 text-3xl font-semibold">{t.projects.title}</h2>
+<section id="projets" class="relative z-10 mx-auto w-full max-w-6xl px-6 pb-24" data-projects data-results-label={t.projects.results}>
+	<div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+		<div data-reveal>
+			<p class="text-xs uppercase tracking-[0.35em] text-[color:var(--ink-2)]">{t.projects.label}</p>
+			<h2 class="mt-3 text-3xl font-semibold md:text-4xl">{t.projects.title}</h2>
+		</div>
+
+		<div data-reveal style="--reveal-d:120ms">
+			<p class="mb-2 text-xs uppercase tracking-[0.3em] text-[color:var(--ink-2)]" id="project-filter-label">
+				{t.projects.filter_label}
+			</p>
+			<div class="flex flex-wrap gap-2" role="group" aria-labelledby="project-filter-label">
+				<button type="button" class="filter-chip" data-filter="" aria-pressed="true">
+					{t.projects.filter_all}
+					<span class="filter-chip__count">{projects.length}</span>
+				</button>
+				{filters.map(([name, count]) => (
+					<button type="button" class="filter-chip" data-filter={name} aria-pressed="false">
+						{name}
+						<span class="filter-chip__count">{count}</span>
+					</button>
+				))}
+			</div>
+		</div>
 	</div>
-	<div class="mt-10 grid gap-6 md:grid-cols-3">
-		{projects.map((project) => (
-			<ProjectCard project={project} />
+
+	<p class="sr-only" aria-live="polite" data-filter-status></p>
+
+	<div class="mt-10 grid gap-5 md:grid-cols-6">
+		{projects.map((project, index) => (
+			<ProjectCard
+				project={project}
+				index={index}
+				total={projects.length}
+				featured={index === 0}
+				t={t}
+				class={layout[index] ?? 'md:col-span-3'}
+			/>
 		))}
 	</div>
 </section>
+
+<script>
+	const section = document.querySelector('[data-projects]');
+	const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+	const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+	if (section) {
+		const cards = [...section.querySelectorAll<HTMLElement>('[data-project]')];
+		const chips = [...section.querySelectorAll<HTMLButtonElement>('[data-filter]')];
+		const status = section.querySelector('[data-filter-status]');
+		const resultsLabel = (section as HTMLElement).dataset.resultsLabel ?? '';
+
+		// Filtering keeps the bento layout intact: non-matching cards step back
+		// instead of disappearing, and matching tags light up.
+		const applyFilter = (filter: string) => {
+			let matches = 0;
+			for (const card of cards) {
+				const tags = (card.dataset.tags ?? '').split('|');
+				const isMatch = !filter || tags.includes(filter);
+				if (isMatch) matches += 1;
+				card.classList.toggle('is-dimmed', !isMatch);
+				card.querySelectorAll<HTMLElement>('[data-tag]').forEach((tag) => {
+					tag.classList.toggle('is-hit', Boolean(filter) && tag.dataset.tag === filter);
+				});
+			}
+			chips.forEach((chip) => chip.setAttribute('aria-pressed', String(chip.dataset.filter === filter)));
+			if (status) status.textContent = `${matches} ${resultsLabel}`;
+		};
+
+		chips.forEach((chip) => {
+			chip.addEventListener('click', () => {
+				const next = chip.getAttribute('aria-pressed') === 'true' ? '' : (chip.dataset.filter ?? '');
+				applyFilter(next);
+			});
+		});
+
+		// Pointer-driven spotlight + subtle 3D tilt.
+		if (finePointer) {
+			for (const card of cards) {
+				let frame = 0;
+				card.addEventListener('pointermove', (event) => {
+					cancelAnimationFrame(frame);
+					frame = requestAnimationFrame(() => {
+						const rect = card.getBoundingClientRect();
+						const x = (event.clientX - rect.left) / rect.width;
+						const y = (event.clientY - rect.top) / rect.height;
+						card.style.setProperty('--mx', `${(x * 100).toFixed(1)}%`);
+						card.style.setProperty('--my', `${(y * 100).toFixed(1)}%`);
+						if (!reduceMotion) {
+							const strength = card.dataset.featured === 'true' ? 4 : 7;
+							card.style.setProperty('--ry', `${((x - 0.5) * strength).toFixed(2)}deg`);
+							card.style.setProperty('--rx', `${((0.5 - y) * strength).toFixed(2)}deg`);
+						}
+					});
+				});
+				card.addEventListener('pointerleave', () => {
+					cancelAnimationFrame(frame);
+					card.style.setProperty('--rx', '0deg');
+					card.style.setProperty('--ry', '0deg');
+				});
+			}
+		}
+	}
+</script>

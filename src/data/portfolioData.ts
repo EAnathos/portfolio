@@ -6,6 +6,10 @@ import antIdTrainingLogo from '../assets/projects/ant-id-training.svg?raw';
 import puzzleMultiplayerLogo from '../assets/projects/puzzle-multiplayer.svg?raw';
 import seleniumScreenshotLogo from '../assets/projects/selenium-screenshot-compare.svg?raw';
 import scholarWatcherLogo from '../assets/projects/scholar-watcher.svg?raw';
+import fangleafLogo from '../assets/projects/fangleaf.svg?raw';
+import fangleafPreview from '../assets/projects/previews/fangleaf.jpg';
+import antIdTrainingPreview from '../assets/projects/previews/ant-id-training.jpg';
+import puzzleMultiplayerPreview from '../assets/projects/previews/puzzle-multiplayer.jpg';
 import photoGearBodyIcon from '../assets/icons/photo-gear-body.svg?raw';
 import photoGearLensIcon from '../assets/icons/photo-gear-lens.svg?raw';
 import photoGearFlashIcon from '../assets/icons/photo-gear-flash.svg?raw';
@@ -27,12 +31,23 @@ export type ProjectLink = {
 	url: string;
 };
 
+/**
+ * What the project card shows: a real capture framed in a browser window
+ * (scrolls on hover when taller than the frame), or a hand-built HTML mock
+ * for projects without a web UI (CLI tools, Discord bots).
+ */
+export type ProjectPreview =
+	| { kind: 'screenshot'; image: ImageMetadata; url: string }
+	| { kind: 'compare' }
+	| { kind: 'discord'; variant: 'scholar' | 'contribot' };
+
 export type Project = {
 	title: string;
 	description: string;
 	image?: ImageMetadata;
 	imageSvg?: string;
 	emoji?: string;
+	preview?: ProjectPreview;
 	links?: ProjectLink[];
 	tags: SkillItem[];
 };
@@ -60,6 +75,7 @@ export const skillGroups: SkillGroup[] = [
 			{ name: 'Astro', icon: 'devicon-astro-plain', url: 'https://astro.build/' },
 			{ name: 'React', icon: 'devicon-react-original', url: 'https://react.dev/' },
 			{ name: 'Vue.js', icon: 'devicon-vuejs-plain', url: 'https://vuejs.org/' },
+			{ name: 'Vite', icon: 'devicon-vitejs-plain', url: 'https://vite.dev/' },
 			{ name: 'Node.js', icon: 'devicon-nodejs-plain', url: 'https://nodejs.org/' },
 			{ name: 'Tailwind CSS', icon: 'devicon-tailwindcss-plain', url: 'https://tailwindcss.com/' }
 		]
@@ -71,7 +87,8 @@ export const skillGroups: SkillGroup[] = [
 			{ name: 'PostgreSQL', icon: 'devicon-postgresql-plain', url: 'https://www.postgresql.org/' },
 			{ name: 'MongoDB', icon: 'devicon-mongodb-plain', url: 'https://www.mongodb.com/' },
 			{ name: 'Prisma', icon: 'devicon-prisma-plain', url: 'https://www.prisma.io/' },
-			{ name: 'Drizzle', icon: 'devicon-drizzle-plain', url: 'https://orm.drizzle.team/' }
+			{ name: 'Drizzle', icon: 'devicon-drizzle-plain', url: 'https://orm.drizzle.team/' },
+			{ name: 'Supabase', icon: 'devicon-supabase-plain', url: 'https://supabase.com/' }
 		]
 	},
 	{
@@ -105,10 +122,30 @@ export const skillGroups: SkillGroup[] = [
 
 export const projects: Project[] = [
 	{
+		title: 'FangLeaf',
+		description:
+			'Jeu coop en ligne dans le navigateur : chasse, apprivoise et fais evoluer ta meute de monstres, a 4 joueurs par village.',
+		imageSvg: fangleafLogo,
+		preview: { kind: 'screenshot', image: fangleafPreview, url: 'fangleaf.anathos.me' },
+		links: [
+			{ type: 'web', url: 'https://fangleaf.anathos.me/' },
+			{ type: 'github', url: 'https://github.com/EAnathos/Fangleaf' }
+		],
+		tags: [
+			{ name: 'TypeScript', icon: 'devicon-typescript-plain' },
+			{ name: 'Node.js', icon: 'devicon-nodejs-plain' },
+			{ name: 'Vite', icon: 'devicon-vitejs-plain' },
+			{ name: 'Supabase', icon: 'devicon-supabase-plain' },
+			{ name: 'WebSocket' },
+			{ name: 'Canvas 2D' }
+		]
+	},
+	{
 		title: 'Ant-ID Training',
 		description:
 			"Plateforme d entrainement pour identifier les especes de fourmis, avec parcours progressifs.",
 		imageSvg: antIdTrainingLogo,
+		preview: { kind: 'screenshot', image: antIdTrainingPreview, url: 'ant-id-training.anathos.me' },
 		links: [
 			{ type: 'web', url: 'https://ant-id-training.anathos.me/' },
 			{ type: 'github', url: 'https://github.com/EAnathos/antIdTraining' }
@@ -126,6 +163,7 @@ export const projects: Project[] = [
 		description:
 			'Puzzle collaboratif multijoueur en temps reel : on rejoint une partie avec un code, sans compte, et on assemble les pieces ensemble.',
 		imageSvg: puzzleMultiplayerLogo,
+		preview: { kind: 'screenshot', image: puzzleMultiplayerPreview, url: 'puzzle-multiplayer.anathos.me' },
 		links: [
 			{ type: 'web', url: 'https://puzzle-multiplayer.anathos.me/' },
 			{ type: 'github', url: 'https://github.com/EAnathos/puzzle-multiplayer' }
@@ -142,6 +180,7 @@ export const projects: Project[] = [
 		description:
 			"Outil de regression visuelle : compare le rendu d'un site entre deux versions de Firefox via des scenarios de navigation Selenium.",
 		imageSvg: seleniumScreenshotLogo,
+		preview: { kind: 'compare' },
 		links: [
 			{ type: 'web', url: 'https://pypi.org/project/selenium-screenshot-compare/' },
 			{ type: 'github', url: 'https://github.com/EAnathos/selenium-screenshot-compare' }
@@ -157,6 +196,7 @@ export const projects: Project[] = [
 		description:
 			'Bot Discord de veille bibliographique automatisee : surveille Google Scholar et AntCat pour notifier les nouvelles publications.',
 		imageSvg: scholarWatcherLogo,
+		preview: { kind: 'discord', variant: 'scholar' },
 		links: [{ type: 'github', url: 'https://github.com/EAnathos/scholarWatcherForDiscord' }],
 		tags: [
 			{ name: 'TypeScript', icon: 'devicon-typescript-plain' },
@@ -170,6 +210,7 @@ export const projects: Project[] = [
 		description:
 			'Bot Discord pour animer une communaute, avec systeme de recompenses et tableau de bord admin.',
 		image: contribotImage,
+		preview: { kind: 'discord', variant: 'contribot' },
 		links: [{ type: 'github', url: 'https://github.com/ContriBot-Discord' }],
 		tags: [
 			{ name: 'Node.js', icon: 'devicon-nodejs-plain' },
@@ -216,13 +257,14 @@ export function getLocalizedGear(labels: { body: string; lens: string; flash: st
 }
 
 export function getLocalizedProjects(
-	descriptions: Record<'antid' | 'puzzle' | 'seleniumScreenshot' | 'scholarWatcher' | 'contribot', string>
+	descriptions: Record<'fangleaf' | 'antid' | 'puzzle' | 'seleniumScreenshot' | 'scholarWatcher' | 'contribot', string>
 ): Project[] {
 	return [
-		{ ...projects[0], description: descriptions.antid },
-		{ ...projects[1], description: descriptions.puzzle },
-		{ ...projects[2], description: descriptions.seleniumScreenshot },
-		{ ...projects[3], description: descriptions.scholarWatcher },
-		{ ...projects[4], description: descriptions.contribot },
+		{ ...projects[0], description: descriptions.fangleaf },
+		{ ...projects[1], description: descriptions.antid },
+		{ ...projects[2], description: descriptions.puzzle },
+		{ ...projects[3], description: descriptions.seleniumScreenshot },
+		{ ...projects[4], description: descriptions.scholarWatcher },
+		{ ...projects[5], description: descriptions.contribot },
 	];
 }

@@ -28,6 +28,7 @@ const {
 			content={description}
 		/>
 		<title>{title}</title>
+		<script is:inline>document.documentElement.classList.add('js');</script>
 	</head>
 	<body>
 		<slot />
